@@ -663,11 +663,20 @@ function handleAuthSuccess(result) {
     return;
   }
   
-  // Показываем выбор цеха (шаг 2), а не форму входа
   document.getElementById('headerTitle').textContent = 'Выбор цеха';
   document.getElementById('backButton').style.display = 'none';
   renderDepartments(filteredDepartments);
-  goToStep(2);
+  
+  // Скрываем шаг 1, показываем шаг 2
+  const step1 = document.getElementById('step1');
+  const step2 = document.getElementById('step2');
+  if (step1) step1.classList.remove('active');
+  if (step2) step2.classList.add('active');
+  currentStep = 2;
+  
+  // Очищаем поле телефона
+  const phoneInput = document.getElementById('phone');
+  if (phoneInput) phoneInput.value = '';
 }
 
 function getDepartmentClass(dept) {
