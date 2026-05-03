@@ -611,25 +611,6 @@ function renderDepartments(departments) {
     `;
     container.appendChild(btn);
   }
-  if (isChef) {
-  const btnDiv = document.createElement('div');
-  btnDiv.className = 'mt-3 d-grid';
-  btnDiv.innerHTML = `
-    <button class="btn ${isInventoryActive ? 'btn-danger' : 'btn-success'} inventory-toggle-btn" id="inventoryToggleBtn">
-      <i class="bi ${isInventoryActive ? 'bi-stop-circle' : 'bi-play-circle'}"></i> 
-      ${isInventoryActive ? 'Закончить инвентаризацию' : 'Начать инвентаризацию'}
-    </button>
-    <small class="text-muted text-center mt-1 small">${isInventoryActive ? 'Инвентаризация активна' : 'Инвентаризация не активна'}</small>
-  `;
-  
-  // Добавляем обработчик отдельно, чтобы он не потерялся
-  const btn = btnDiv.querySelector('#inventoryToggleBtn');
-  if (btn) {
-    btn.onclick = () => toggleInventory();
-  }
-  
-  container.appendChild(btnDiv);
-}
 }
 
 async function toggleInventory() {
