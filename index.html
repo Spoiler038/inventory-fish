@@ -111,16 +111,7 @@
     .card-body { padding: 20px; }
     
     /* Горизонтальное центрирование формы входа */
-    #step1 {
-      display: flex;
-      align-items: center;
-      min-height: 80vh;
-    }
-    #step1 .card {
-      width: 100%;
-      margin: 0 auto;
-    }
-    
+        
     /* Цветные иконки цехов */
     .department-card { cursor: pointer; background: white; border-radius: var(--radius); padding: 15px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; transition: all 0.2s; border: 2px solid transparent; }
     .department-card:hover { transform: translateY(-2px); border-color: var(--accent-color); box-shadow: var(--shadow); }
@@ -1029,11 +1020,22 @@ async function updateProduct(isReplace) {
 
 // ==================== НАВИГАЦИЯ ====================
 function goToStep(step) {
-  document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
-  const stepEl = document.getElementById(`step${step}`);
-  if (stepEl) stepEl.classList.add('active');
+  // Скрываем ВСЕ шаги
+  const step1 = document.getElementById('step1');
+  const step2 = document.getElementById('step2');
+  const step3 = document.getElementById('step3');
+  
+  if (step1) step1.classList.remove('active');
+  if (step2) step2.classList.remove('active');
+  if (step3) step3.classList.remove('active');
+  
+  // Показываем нужный шаг
+  const activeStep = document.getElementById(`step${step}`);
+  if (activeStep) activeStep.classList.add('active');
+  
   currentStep = step;
   
+  // Управление поиском
   const sc = document.getElementById('searchContainer');
   if (step === 3) { 
     if (sc) sc.classList.add('visible'); 
