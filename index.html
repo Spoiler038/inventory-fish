@@ -4,7 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes, viewport-fit=cover">
   <meta name="theme-color" content="#2c3e50">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="/inventory-fish/manifest.json">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🐟%3C/text%3E%3C/svg%3E">
   <title>Инвентаризация продуктов</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
@@ -84,7 +87,7 @@
     .main-content {
       flex: 1;
       overflow-y: auto;
-      padding: 12px;
+      padding: 16px;
       position: relative;
       -webkit-overflow-scrolling: touch;
     }
@@ -102,6 +105,17 @@
       overflow: hidden;
     }
     .card-body { padding: 20px; }
+    
+    /* Горизонтальное центрирование формы входа */
+    #step1 {
+      display: flex;
+      align-items: center;
+      min-height: 80vh;
+    }
+    #step1 .card {
+      width: 100%;
+      margin: 0 auto;
+    }
     
     /* Цветные иконки цехов */
     .department-card { cursor: pointer; background: white; border-radius: var(--radius); padding: 15px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; transition: all 0.2s; border: 2px solid transparent; }
@@ -269,30 +283,60 @@
     .action-explanation { margin: 15px 0 12px; padding: 10px; background-color: #f0f7ff; border-radius: 10px; border-left: 3px solid var(--accent-color); font-size: 12px; line-height: 1.4; }
     .action-explanation p { margin-bottom: 5px; }
     .action-explanation p:last-child { margin-bottom: 0; }
-    .mt-4 { margin-top: 15px; }
+    .mt-3 { margin-top: 15px; }
     .d-grid { display: grid; }
-    .inventory-toggle-btn { font-size: 14px; padding: 12px; }
+    .inventory-toggle-btn { font-size: 14px; padding: 10px; }
+    
     @media (max-width: 480px) { 
       .department-icon i { font-size: 22px; }
       .unit-btn { padding: 8px 4px; min-width: 40px; font-size: 11px; }
-      .btn { padding: 10px; font-size: 13px; }
+      .btn { padding: 10px; font-size: 15px; }
+      #step1 { min-height: 75vh; }
     }
-
-     #step1 {
-    display: flex;
-    align-items: center;
-    min-height: calc(100vh - 60px);
-    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-  }
-  }
+    
+    /* Скрытие сплеша после загрузки */
+    #splash {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0f172a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 99999;
+      transition: opacity 0.5s;
+    }
+    .splash-content { text-align: center; }
+    .splash-loader {
+      width: 40px;
+      height: 40px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #3498db;
+      border-radius: 50%;
+      animation: splashSpin 1s linear infinite;
+      margin: 0 auto;
+    }
+    @keyframes splashSpin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
+<div id="splash">
+  <div class="splash-content">
+    <div class="splash-loader"></div>
+    <div style="margin-top: 12px; color: white; font-size: 14px;">Загрузка...</div>
+  </div>
+</div>
+
 <div class="app-container">
   <header class="app-header">
     <div class="header-content">
       <div style="display: flex; align-items: center;">
-        <button class="back-btn" id="backButton" style="display: none;" onclick="goBack()">←</button>
+        <button class="back-btn" id="backButton" style="display: none;" onclick="window.goBack && goBack()">←</button>
         <div class="app-title"><i class="bi bi-clipboard-data"></i><span id="headerTitle">Инвентаризация</span></div>
       </div>
       <div class="header-actions" id="headerActions" style="display: none;">
@@ -304,7 +348,7 @@
     <div id="step1" class="step active">
       <div class="card"><div class="card-body">
         <div class="text-center mb-3">
-          <img src="https://mealtime.group/logo_ryba.svg" alt="Ресторан" style="width: 80px; height: 80px; margin: 0 auto 10px auto; display: block;">
+          <div style="font-size: 64px; margin: 0 auto 10px auto;">🐟</div>
           <h2>Вход в систему</h2>
           <p class="text-muted small">Введите номер телефона</p>
         </div>
@@ -365,17 +409,17 @@
     </div></div>
   </div>
   <div class="modal-actions p-3">
-    <button class="btn btn-secondary" onclick="closeLogoutModal()">Отмена</button>
-    <button class="btn btn-danger" onclick="performLogout()">Выйти</button>
+    <button class="btn btn-secondary" onclick="window.closeLogoutModal && closeLogoutModal()">Отмена</button>
+    <button class="btn btn-danger" onclick="window.performLogout && performLogout()">Выйти</button>
   </div>
 </div></div>
 
 <script>
 // ==================== КОНФИГУРАЦИЯ ====================
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbwoALdfBrddPOKjKEHeaLb4UemRUwFuhXL8FVWMaFG9CIejgoLFGtftSKV-bh5FxmCB/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbxbelvxTTddMcLaiLOakH2Gj_hIQ-4IEOBpuAGR8bt0iuG5EhVqNO_eRQ_v32vQ6-Vy/exec';
 
 const TECHNICAL_SHEETS = ['Users', 'Devices', 'Logs', 'Лист1', 'Лист2'];
-const READONLY_SHEETS = ['Итого', 'Отчеты'];  // ← ЭТО ЗАПРЕЩАЕТ РЕДАКТИРОВАНИЕ
+const READONLY_SHEETS = ['Итого', 'Отчеты'];
 
 const units = [{ value: 'кг', name: 'килограммы' }, { value: 'шт', name: 'штуки' }, { value: 'короб', name: 'коробки' }];
 
@@ -534,6 +578,7 @@ function handleAuthSuccess(result) {
     return;
   }
   
+  // Показываем выбор цеха (шаг 2), а не форму входа
   document.getElementById('headerTitle').textContent = 'Выбор цеха';
   document.getElementById('backButton').style.display = 'none';
   renderDepartments(filteredDepartments);
@@ -562,6 +607,7 @@ function getDepartmentIcon(dept) {
 
 function renderDepartments(departments) {
   const container = document.getElementById('departmentsList');
+  if (!container) return;
   container.innerHTML = '';
   
   departments.forEach(dept => {
@@ -584,16 +630,22 @@ function renderDepartments(departments) {
   });
   
   if (isChef) {
-    const btn = document.createElement('div');
-    btn.className = 'mt-3 d-grid';
-    btn.innerHTML = `
-      <button class="btn ${isInventoryActive ? 'btn-danger' : 'btn-success'} inventory-toggle-btn" onclick="toggleInventory()">
+    const btnDiv = document.createElement('div');
+    btnDiv.className = 'mt-3 d-grid';
+    btnDiv.innerHTML = `
+      <button class="btn ${isInventoryActive ? 'btn-danger' : 'btn-success'} inventory-toggle-btn" id="inventoryToggleBtn">
         <i class="bi ${isInventoryActive ? 'bi-stop-circle' : 'bi-play-circle'}"></i> 
         ${isInventoryActive ? 'Закончить инвентаризацию' : 'Начать инвентаризацию'}
       </button>
       <small class="text-muted text-center mt-1 small">${isInventoryActive ? 'Инвентаризация активна' : 'Инвентаризация не активна'}</small>
     `;
-    container.appendChild(btn);
+    
+    const toggleBtn = btnDiv.querySelector('#inventoryToggleBtn');
+    if (toggleBtn) {
+      toggleBtn.onclick = () => toggleInventory();
+    }
+    
+    container.appendChild(btnDiv);
   }
 }
 
@@ -606,19 +658,20 @@ async function toggleInventory() {
     isInventoryActive = result.inventoryActive;
     showNotification(result.message, 'success');
     
-    // Обновляем кнопку в текущем списке цехов
-    const inventoryButton = document.querySelector('.mt-3.d-grid');
-    if (inventoryButton) {
-      inventoryButton.innerHTML = `
-        <button class="btn ${isInventoryActive ? 'btn-danger' : 'btn-success'} inventory-toggle-btn" onclick="toggleInventory()">
-          <i class="bi ${isInventoryActive ? 'bi-stop-circle' : 'bi-play-circle'}"></i> 
-          ${isInventoryActive ? 'Закончить инвентаризацию' : 'Начать инвентаризацию'}
-        </button>
-        <small class="text-muted text-center mt-1 small">${isInventoryActive ? 'Инвентаризация активна - все повара могут вносить изменения' : 'Инвентаризация не активна - повара могут только просматривать'}</small>
+    const toggleBtn = document.getElementById('inventoryToggleBtn');
+    if (toggleBtn) {
+      toggleBtn.className = `btn ${isInventoryActive ? 'btn-danger' : 'btn-success'} inventory-toggle-btn`;
+      toggleBtn.innerHTML = `
+        <i class="bi ${isInventoryActive ? 'bi-stop-circle' : 'bi-play-circle'}"></i> 
+        ${isInventoryActive ? 'Закончить инвентаризацию' : 'Начать инвентаризацию'}
       `;
+      
+      const smallText = toggleBtn.parentElement?.querySelector('small');
+      if (smallText) {
+        smallText.textContent = isInventoryActive ? 'Инвентаризация активна' : 'Инвентаризация не активна';
+      }
     }
     
-    // Если мы в цехе - обновляем карточки продуктов
     if (currentDepartment) {
       renderProducts();
     }
@@ -633,7 +686,6 @@ async function selectDepartment(department) {
   isReadonlyDepartment = READONLY_SHEETS.includes(department);
   
   document.getElementById('headerTitle').textContent = department;
-  // Показываем кнопку назад если шеф (всегда) или несколько цехов
   const showBack = userData && userData.hasMultipleDepts;
   document.getElementById('backButton').style.display = showBack ? 'block' : 'none';
   
@@ -659,7 +711,6 @@ function renderProducts() {
   const container = document.getElementById('step3');
   if (!container) return;
   
-  // Удаляем старые уведомления
   document.querySelectorAll('.readonly-notice, .alert-success').forEach(n => n.remove());
   
   if (filteredProducts.length === 0) {
@@ -671,7 +722,6 @@ function renderProducts() {
   filteredProducts.forEach(product => {
     const stockDisplay = product.stock > 0 ? product.stock : '0';
     
-    // КЛЮЧЕВОЕ УСЛОВИЕ: если цех в READONLY_SHEETS - запрещаем редактирование
     const canEdit = !isReadonlyDepartment;
     const editIcon = (isChef && canEdit) ? `<span class="edit-icon" onclick="event.stopPropagation(); startEditName(${product.id}, '${product.name.replace(/'/g, "\\'")}', event)"><i class="bi bi-pencil"></i></span>` : '';
     const canOpenModal = (isChef && canEdit) || (isInventoryActive && canEdit);
@@ -693,7 +743,6 @@ function renderProducts() {
   html += '</div>';
   container.innerHTML = html;
   
-  // Уведомление для readonly цехов
   if (isReadonlyDepartment) {
     const notice = document.createElement('div');
     notice.className = 'readonly-notice';
@@ -948,7 +997,26 @@ async function performLogout() {
   }
 }
 
+// ==================== ЭКСПОРТ ФУНКЦИЙ ====================
+window.goBack = goBack;
+window.closeLogoutModal = closeLogoutModal;
+window.performLogout = performLogout;
+window.toggleInventory = toggleInventory;
+window.startEditName = startEditName;
+window.saveNameEdit = saveNameEdit;
+window.cancelNameEdit = cancelNameEdit;
+window.openProductModal = openProductModal;
+window.updateProduct = updateProduct;
+
 // ==================== ИНИЦИАЛИЗАЦИЯ ====================
+function hideSplash() {
+  const splash = document.getElementById('splash');
+  if (splash) {
+    splash.style.opacity = '0';
+    setTimeout(() => { splash.style.display = 'none'; }, 500);
+  }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   getDeviceId();
   initUnits();
@@ -979,17 +1047,8 @@ document.addEventListener('DOMContentLoaded', function() {
   
   const savedPhone = localStorage.getItem('last_phone');
   if (savedPhone) document.getElementById('phone').value = savedPhone;
-
-  // ==================== РЕГИСТРАЦИЯ SERVICE WORKER ДЛЯ PWA ====================
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/inventory-fish/sw.js')
-    .then(function(registration) {
-      console.log('Service Worker registered successfully:', registration.scope);
-    })
-    .catch(function(error) {
-      console.log('Service Worker registration failed:', error);
-    });
-}
+  
+  setTimeout(hideSplash, 800);
 });
 </script>
 </body>
