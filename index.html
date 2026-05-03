@@ -4,10 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes">
   <meta name="theme-color" content="#2c3e50">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="icon-192.png">
   <title>Инвентаризация продуктов</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -17,35 +14,18 @@
       --secondary-color: #2c3e50;
       --accent-color: #3498db;
       --success-color: #2ecc71;
-      --warning-color: #f39c12;
-      --danger-color: #e74c3c;
-      --light-color: #f8f9fa;
-      --dark-color: #343a40;
       --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       --radius: 12px;
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html, body {
-      height: 100%;
-      overflow: hidden;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: linear-gradient(135deg, var(--secondary-color) 0%, #1a252f 100%);
-      color: var(--dark-color);
-      line-height: 1.5;
       height: 100vh;
       display: flex;
       flex-direction: column;
     }
-
     .app-container {
       display: flex;
       flex-direction: column;
@@ -57,22 +37,18 @@
       position: relative;
       overflow: hidden;
     }
-
     .app-header {
       background-color: var(--secondary-color);
       color: white;
       padding: 16px 20px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      z-index: 100;
       flex-shrink: 0;
     }
-
     .header-content {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-
     .app-title {
       font-size: 20px;
       font-weight: 600;
@@ -80,7 +56,6 @@
       align-items: center;
       gap: 8px;
     }
-
     .logout-btn {
       background: transparent;
       border: 1px solid rgba(255, 255, 255, 0.3);
@@ -92,13 +67,7 @@
       align-items: center;
       gap: 6px;
       cursor: pointer;
-      transition: all 0.2s;
     }
-
-    .logout-btn:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-
     .back-btn {
       background: transparent;
       border: none;
@@ -106,43 +75,19 @@
       font-size: 24px;
       margin-right: 12px;
       cursor: pointer;
-      display: flex;
-      align-items: center;
     }
-
     .main-content {
       flex: 1;
       overflow-y: auto;
-      padding: 16px 16px 20px;
+      padding: 16px;
       position: relative;
-      scroll-behavior: smooth;
     }
-
-    body.modal-open .main-content {
-      filter: blur(4px);
-      pointer-events: none;
-    }
-
-    .step {
-      display: none;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .step.active {
-      display: block;
-    }
-
+    .step { display: none; animation: fadeIn 0.3s ease; }
+    .step.active { display: block; }
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-
     .card {
       background: white;
       border-radius: var(--radius);
@@ -150,15 +95,9 @@
       border: none;
       overflow: hidden;
     }
-
-    .card-body {
-      padding: 24px;
-    }
-
+    .card-body { padding: 24px; }
     .department-card {
       cursor: pointer;
-      transition: all 0.2s;
-      border: 2px solid transparent;
       background: white;
       border-radius: var(--radius);
       padding: 20px;
@@ -166,14 +105,10 @@
       display: flex;
       align-items: center;
       gap: 15px;
+      transition: all 0.2s;
+      border: 2px solid transparent;
     }
-
-    .department-card:hover {
-      transform: translateY(-2px);
-      border-color: var(--accent-color);
-      box-shadow: var(--shadow);
-    }
-
+    .department-card:hover { transform: translateY(-2px); border-color: var(--accent-color); box-shadow: var(--shadow); }
     .department-icon {
       width: 60px;
       height: 60px;
@@ -183,51 +118,34 @@
       align-items: center;
       justify-content: center;
       color: white;
-      box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
     }
-
-    .department-icon i {
-      font-size: 32px;
-      line-height: 1;
+    .department-icon i { font-size: 32px; }
+    .department-info h5 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+    .department-info p { color: #777; font-size: 14px; margin: 0; }
+    .products-list { display: flex; flex-direction: column; gap: 8px; margin-top: 5px; }
+    .product-card {
+      background-color: white;
+      border-radius: 12px;
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid #f0f0f0;
     }
-
-    .department-info h5 {
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .department-info p {
-      color: #777;
-      font-size: 14px;
-      margin: 0;
-    }
-
+    .product-card.chef-mode { border-left: 4px solid #f39c12; }
+    .product-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    .product-name { font-size: 16px; font-weight: 500; color: var(--secondary-color); }
+    .product-stock { font-size: 17px; font-weight: 600; color: var(--secondary-color); white-space: nowrap; }
+    .product-unit { font-size: 13px; font-weight: 400; color: #777; margin-left: 2px; }
     .search-container {
-      padding: 12px 12px;
+      padding: 12px;
       background-color: transparent;
-      z-index: 10;
       flex-shrink: 0;
       display: none;
       justify-content: flex-start;
     }
-
-    .search-container.visible {
-      display: flex !important;
-    }
-
-    .search-container.collapsed {
-      background-color: transparent;
-    }
-
-    .search-wrapper {
-      position: relative;
-      display: flex;
-      align-items: center;
-      width: auto;
-      background-color: transparent;
-    }
-
+    .search-container.visible { display: flex !important; }
+    .search-container.collapsed .search-input,
+    .search-container.collapsed .clear-search { display: none; }
     .search-icon {
       width: 40px;
       height: 40px;
@@ -240,158 +158,16 @@
       font-size: 20px;
       cursor: pointer;
       box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
-      transition: all 0.3s;
-      flex-shrink: 0;
     }
-
-    .search-icon:hover {
-      transform: scale(1.05);
-    }
-
     .search-input {
       flex: 1;
       padding: 14px 20px;
       border: 2px solid #e0e0e0;
       border-radius: 30px;
       font-size: 16px;
-      transition: all 0.3s;
-      background-color: white;
       margin-left: 10px;
       display: none;
     }
-
-    .search-input:focus {
-      outline: none;
-      border-color: #3498db;
-    }
-
-    .clear-search {
-      position: absolute;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      color: #999;
-      font-size: 20px;
-      cursor: pointer;
-      display: none;
-    }
-
-    .search-container.collapsed .search-input,
-    .search-container.collapsed .clear-search {
-      display: none;
-    }
-
-    .search-container:not(.collapsed) .search-input {
-      display: block !important;
-    }
-
-    .search-container:not(.collapsed) .clear-search {
-      display: block !important;
-    }
-
-    .products-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: 5px;
-    }
-
-    .product-card {
-      background-color: white;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-      padding: 14px 16px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      border: 1px solid #f0f0f0;
-      position: relative;
-    }
-
-    .product-card:active:not(.editing-mode) {
-      background-color: #f8f9fa;
-      transform: scale(0.99);
-    }
-
-    .product-card.chef-mode {
-      border-left: 4px solid #f39c12;
-    }
-
-    .product-card.highlight {
-      background-color: #fff3cd;
-      border-left: 4px solid #ffc107;
-    }
-
-    .product-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .product-name-container {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex: 1;
-      min-width: 0;
-    }
-
-    .product-name {
-      font-size: 16px;
-      font-weight: 500;
-      color: var(--secondary-color);
-      word-break: break-word;
-    }
-
-    .product-stock {
-      font-size: 17px;
-      font-weight: 600;
-      color: var(--secondary-color);
-      white-space: nowrap;
-      display: flex;
-      align-items: baseline;
-      gap: 2px;
-      flex-shrink: 0;
-    }
-
-    .product-unit {
-      font-size: 13px;
-      font-weight: 400;
-      color: #777;
-      margin-left: 2px;
-    }
-
-    .edit-icon {
-      color: var(--accent-color);
-      font-size: 14px;
-      cursor: pointer;
-      opacity: 0.7;
-      transition: opacity 0.2s;
-      flex-shrink: 0;
-    }
-
-    .edit-icon:hover {
-      opacity: 1;
-    }
-
-    .edit-name-input {
-      width: 100%;
-      padding: 8px 12px;
-      border: 2px solid var(--accent-color);
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: 500;
-      outline: none;
-    }
-
-    .edit-actions {
-      display: flex;
-      gap: 8px;
-      margin-top: 8px;
-    }
-
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -405,11 +181,7 @@
       z-index: 1000;
       padding: 12px;
     }
-
-    .modal-overlay.active {
-      display: flex;
-    }
-
+    .modal-overlay.active { display: flex; }
     .modal-content {
       background-color: white;
       border-radius: 20px;
@@ -417,209 +189,14 @@
       max-width: 400px;
       max-height: 85vh;
       overflow-y: auto;
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-      animation: modalAppear 0.25s ease-out;
     }
-
-    @keyframes modalAppear {
-      from {
-        opacity: 0;
-        transform: translateY(30px) scale(0.95);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
     .modal-header {
       background-color: var(--secondary-color);
       color: white;
       padding: 18px 20px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
       border-radius: 20px 20px 0 0;
     }
-
-    .modal-title {
-      font-size: 18px;
-      font-weight: 600;
-      word-break: break-word;
-    }
-
-    .modal-body {
-      padding: 20px;
-    }
-
-    .current-stock {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
-      background-color: #f8f9fa;
-      padding: 12px;
-      border-radius: 12px;
-      font-size: 16px;
-    }
-
-    .current-value {
-      font-weight: 700;
-      color: var(--secondary-color);
-      font-size: 18px;
-    }
-
-    .form-label {
-      display: block;
-      font-weight: 600;
-      color: var(--secondary-color);
-      font-size: 15px;
-      margin-bottom: 8px;
-    }
-
-    .input-row {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .quantity-wrapper {
-      position: relative;
-      flex: 1;
-      min-width: 0;
-    }
-
-    .quantity-input {
-      width: 100%;
-      padding: 16px;
-      border: 2px solid #e0e0e0;
-      border-radius: 14px;
-      font-size: 18px;
-      font-weight: 600;
-      text-align: center;
-      background-color: #f8f9fa;
-    }
-
-    .quantity-input:focus {
-      outline: none;
-      border-color: var(--accent-color);
-      background-color: white;
-    }
-
-    .units-container {
-      display: flex;
-      gap: 4px;
-      flex-shrink: 0;
-    }
-
-    .unit-btn {
-      padding: 14px 8px;
-      border: 2px solid #e0e0e0;
-      border-radius: 14px;
-      background-color: white;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-align: center;
-      min-width: 50px;
-    }
-
-    .unit-btn:active {
-      background-color: #f0f0f0;
-      transform: scale(0.97);
-    }
-
-    .unit-btn.active {
-      background-color: var(--accent-color);
-      color: white;
-      border-color: var(--accent-color);
-    }
-
-    .quick-input {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      margin-bottom: 20px;
-    }
-
-    .quick-btn {
-      padding: 14px 5px;
-      background-color: #f0f2f5;
-      border: 2px solid #ddd;
-      border-radius: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-size: 15px;
-    }
-
-    .quick-btn:active {
-      background-color: #e0e0e0;
-      transform: scale(0.97);
-    }
-
-    .action-explanation {
-      margin: 20px 0 15px;
-      padding: 12px;
-      background-color: #f0f7ff;
-      border-radius: 14px;
-      border-left: 4px solid var(--accent-color);
-      font-size: 14px;
-    }
-
-    .modal-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 15px;
-    }
-
-    @media (min-width: 480px) {
-      .modal-actions {
-        flex-direction: row;
-      }
-    }
-
-    .btn {
-      flex: 1;
-      padding: 16px;
-      border: none;
-      border-radius: 14px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      min-height: 56px;
-    }
-
-    .btn:active {
-      transform: scale(0.98);
-    }
-
-    .btn-save {
-      background-color: var(--success-color);
-      color: white;
-    }
-
-    .btn-edit {
-      background-color: var(--accent-color);
-      color: white;
-    }
-
-    .btn-secondary {
-      background-color: #e0e0e0;
-      color: var(--dark-color);
-    }
-
-    .btn-danger {
-      background-color: var(--danger-color);
-      color: white;
-    }
-
+    .modal-body { padding: 20px; }
     .loader {
       border: 5px solid #f3f3f3;
       border-top: 5px solid #3498db;
@@ -632,14 +209,11 @@
       left: 50%;
       transform: translate(-50%, -50%);
       z-index: 9999;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
     }
-
     @keyframes spin {
       0% { transform: translate(-50%, -50%) rotate(0deg); }
       100% { transform: translate(-50%, -50%) rotate(360deg); }
     }
-
     .notification {
       position: fixed;
       top: 20px;
@@ -649,812 +223,622 @@
       color: white;
       padding: 16px 20px;
       border-radius: 14px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
       z-index: 10000;
-      font-weight: 600;
-      animation: slideDown 0.3s ease-out;
       text-align: center;
-      font-size: 15px;
       max-width: 400px;
       margin: 0 auto;
+      animation: slideDown 0.3s ease-out;
     }
-
-    .notification.error {
-      background-color: var(--danger-color);
-    }
-
-    .notification.info {
-      background-color: var(--accent-color);
-    }
-
+    .notification.error { background-color: #e74c3c; }
+    .notification.info { background-color: #3498db; }
     @keyframes slideDown {
-      from {
-        transform: translateY(-100%);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
-
-    .empty-state {
+    .btn {
+      padding: 16px;
+      border-radius: 14px;
+      font-weight: 600;
+      cursor: pointer;
       text-align: center;
-      padding: 50px 20px;
-      color: #777;
+      border: none;
     }
-
-    .empty-state i {
-      font-size: 50px;
-      color: #ddd;
-      margin-bottom: 15px;
-    }
-
-    .readonly-notice {
-      background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
-      color: white;
-      padding: 12px;
-      border-radius: 12px;
-      text-align: center;
-      margin-top: 20px;
-      font-weight: 500;
-    }
-
-    .updated {
-      animation: highlight 1s ease;
-    }
-
-    @keyframes highlight {
-      0% { background-color: rgba(46, 204, 113, 0.2); }
-      100% { background-color: white; }
-    }
-
-    @media (max-width: 480px) {
-      .app-header { padding: 12px 16px; }
-      .app-title { font-size: 18px; }
-      .card-body { padding: 16px; }
-      .quick-btn { padding: 12px 5px; font-size: 14px; }
-      .unit-btn { padding: 12px 6px; min-width: 45px; font-size: 13px; }
-      .department-icon i { font-size: 26px; }
-    }
+    .btn-primary { background-color: var(--accent-color); color: white; }
+    .btn-success { background-color: var(--success-color); color: white; }
+    .btn-danger { background-color: #e74c3c; color: white; }
+    .btn-secondary { background-color: #6c757d; color: white; }
+    .edit-icon { color: var(--accent-color); font-size: 14px; cursor: pointer; margin-left: 8px; }
+    .quick-input { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 10px; }
+    .quick-btn { padding: 12px; background-color: #f0f2f5; border: none; border-radius: 12px; cursor: pointer; }
+    .units-container { display: flex; gap: 4px; }
+    .unit-btn { padding: 12px 8px; border: 2px solid #e0e0e0; border-radius: 12px; cursor: pointer; min-width: 50px; }
+    .unit-btn.active { background-color: var(--accent-color); color: white; }
+    .modal-actions { display: flex; gap: 10px; margin-top: 15px; }
+    .product-name-container { display: flex; align-items: center; gap: 8px; flex: 1; }
+    .readonly-notice { background: #f39c12; color: white; padding: 12px; border-radius: 12px; text-align: center; margin-top: 20px; }
+    .current-stock { display: flex; justify-content: space-between; margin-bottom: 20px; background: #f8f9fa; padding: 12px; border-radius: 12px; }
+    .quantity-input { width: 100%; padding: 14px; border: 2px solid #e0e0e0; border-radius: 12px; font-size: 18px; text-align: center; }
+    .form-label { font-weight: 600; margin-bottom: 8px; display: block; }
+    .input-row { display: flex; gap: 8px; align-items: center; }
+    @media (max-width: 480px) { .department-icon i { font-size: 26px; } }
   </style>
 </head>
 <body>
-  <div class="app-container">
-    <header class="app-header">
-      <div class="header-content">
-        <div style="display: flex; align-items: center;">
-          <button class="back-btn" id="backButton" style="display: none;" onclick="goBack()">
-            <i class="bi bi-arrow-left"></i>
-          </button>
-          <div class="app-title">
-            <i class="bi bi-clipboard-data"></i>
-            <span id="headerTitle">Инвентаризация</span>
-          </div>
-        </div>
-        <div class="header-actions" id="headerActions" style="display: none;">
-          <button class="logout-btn" onclick="showLogoutModal()">
-            <i class="bi bi-box-arrow-right"></i>
-            <span>Выйти</span>
-          </button>
-        </div>
+<div class="app-container">
+  <header class="app-header">
+    <div class="header-content">
+      <div style="display: flex; align-items: center;">
+        <button class="back-btn" id="backButton" style="display: none;">←</button>
+        <div class="app-title"><i class="bi bi-clipboard-data"></i><span id="headerTitle">Инвентаризация</span></div>
       </div>
-    </header>
-
-    <main class="main-content" id="mainContent">
-      <div id="step1" class="step active">
-        <div class="card">
-          <div class="card-body">
-            <div class="text-center mb-4">
-              <h2>Вход в систему</h2>
-              <p class="text-muted">Введите номер телефона</p>
-            </div>
-            <form id="authForm">
-              <div class="mb-4">
-                <label for="phone" class="form-label">Номер телефона</label>
-                <input type="tel" class="form-control form-control-lg" id="phone" placeholder="8 (999) 123-45-67" required autocomplete="off">
-                <div class="form-text mt-2">Можно вводить в любом формате</div>
-              </div>
-              <div class="d-grid">
-                <button type="submit" class="btn btn-primary btn-lg">
-                  <i class="bi bi-arrow-right"></i> Войти
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-
-      <div id="step2" class="step">
-        <div class="card">
-          <div class="card-body">
-            <div class="text-center mb-4">
-              <h3>Выберите цех</h3>
-              <p id="userWelcome" class="text-muted"></p>
-            </div>
-            <div id="departmentsList"></div>
-          </div>
-        </div>
-      </div>
-
-      <div id="step3" class="step"></div>
-    </main>
-
-    <div class="search-container collapsed" id="searchContainer">
-      <div class="search-wrapper">
-        <i class="bi bi-search search-icon"></i>
-        <input type="text" class="search-input" id="searchInput" placeholder="Поиск продукта..." autocomplete="off">
-        <button class="clear-search" id="clearSearchBtn">
-          <i class="bi bi-x-circle"></i>
-        </button>
+      <div class="header-actions" id="headerActions" style="display: none;">
+        <button class="logout-btn" id="logoutBtn"><i class="bi bi-box-arrow-right"></i><span>Выйти</span></button>
       </div>
     </div>
-  </div>
-
-  <div class="modal-overlay" id="productModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="modal-title" id="modalProductName"></div>
-      </div>
-      <div class="modal-body">
-        <div class="current-stock">
-          <span>Текущий остаток:</span>
-          <span class="current-value" id="currentStockValue">0 кг</span>
-        </div>
-
-        <div class="quick-input">
-          <button class="quick-btn" data-value="0.1">+0.1</button>
-          <button class="quick-btn" data-value="0.5">+0.5</button>
-          <button class="quick-btn" data-value="1">+1</button>
-          <button class="quick-btn" data-value="5">+5</button>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Количество</label>
-          <div class="input-row">
-            <div class="quantity-wrapper">
-              <input type="number" step="0.001" min="0" class="quantity-input" id="quantityInput" placeholder="0">
-            </div>
-            <div class="units-container" id="unitsContainer"></div>
+  </header>
+  <main class="main-content" id="mainContent">
+    <div id="step1" class="step active">
+      <div class="card"><div class="card-body">
+        <div class="text-center mb-4"><h2>Вход в систему</h2><p class="text-muted">Введите номер телефона</p></div>
+        <form id="authForm">
+          <div class="mb-4">
+            <input type="tel" class="form-control form-control-lg" id="phone" placeholder="8 (999) 123-45-67" required>
           </div>
-        </div>
-
-        <div class="action-explanation">
-          <p><i class="bi bi-arrow-repeat me-1"></i> <strong>Заменить</strong> — полностью заменить остаток</p>
-          <p><i class="bi bi-plus-circle me-1"></i> <strong>Добавить</strong> — прибавить к текущему</p>
-        </div>
-
-        <div class="modal-actions">
-          <button class="btn btn-edit" id="replaceBtn">
-            <i class="bi bi-arrow-repeat"></i> Заменить
-          </button>
-          <button class="btn btn-save" id="addBtn">
-            <i class="bi bi-plus-circle"></i> Добавить
-          </button>
-        </div>
-      </div>
+          <div class="d-grid"><button type="submit" class="btn btn-primary btn-lg">Войти</button></div>
+        </form>
+      </div></div>
+    </div>
+    <div id="step2" class="step"><div class="card"><div class="card-body">
+      <div class="text-center mb-4"><h3>Выберите цех</h3><p id="userWelcome" class="text-muted"></p></div>
+      <div id="departmentsList"></div>
+    </div></div></div>
+    <div id="step3" class="step"></div>
+  </main>
+  <div class="search-container collapsed" id="searchContainer">
+    <div class="search-wrapper">
+      <i class="bi bi-search search-icon"></i>
+      <input type="text" class="search-input" id="searchInput" placeholder="Поиск продукта...">
+      <button class="clear-search" id="clearSearchBtn" style="display:none;">✖</button>
     </div>
   </div>
+</div>
 
-  <div class="modal-overlay" id="logoutModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">
-          <i class="bi bi-box-arrow-right me-2"></i>Подтверждение выхода
-        </h5>
-      </div>
-      <div class="modal-body">
-        <div class="text-center mb-4">
-          <i class="bi bi-question-circle" style="font-size: 3rem; color: var(--accent-color);"></i>
-        </div>
-        <h5 class="mb-3 text-center">Вы уверены, что хотите выйти?</h5>
-        <p class="text-muted text-center">После выхода потребуется повторная авторизация.</p>
-        <div class="mt-4">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="allowOtherDevices">
-            <label class="form-check-label" for="allowOtherDevices">
-              Разрешить вход на других устройствах
-            </label>
-            <div class="form-text small">После выхода можно будет войти с другого устройства</div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-actions p-3">
-        <button type="button" class="btn btn-secondary" onclick="closeLogoutModal()">
-          <i class="bi bi-x-circle me-2"></i>Отмена
-        </button>
-        <button type="button" class="btn btn-danger" onclick="performLogout()">
-          <i class="bi bi-box-arrow-right me-2"></i>Выйти
-        </button>
-      </div>
+<div class="modal-overlay" id="productModal"><div class="modal-content">
+  <div class="modal-header"><div class="modal-title" id="modalProductName"></div></div>
+  <div class="modal-body">
+    <div class="current-stock"><span>Текущий остаток:</span><span id="currentStockValue"></span></div>
+    <div class="quick-input">
+      <button class="quick-btn" data-value="0.1">+0.1</button><button class="quick-btn" data-value="0.5">+0.5</button>
+      <button class="quick-btn" data-value="1">+1</button><button class="quick-btn" data-value="5">+5</button>
+    </div>
+    <div><label class="form-label">Количество</label><div class="input-row">
+      <input type="number" step="0.001" class="quantity-input" id="quantityInput" placeholder="0">
+      <div class="units-container" id="unitsContainer"></div>
+    </div></div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="replaceBtn">Заменить</button>
+      <button class="btn btn-success" id="addBtn">Добавить</button>
     </div>
   </div>
+</div></div>
 
-  <script>
-    // ==================== КОНФИГУРАЦИЯ ====================
-    // ВАЖНО: Укажите URL вашего GAS скрипта!
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbxv6vgchT8tSM4JQe6Eojr-0_31TOMKkOieJwF48Gv_AKuW-cj3v-4gXqCLelqVjaDv/exec';
-    
-    // Технические листы для фильтрации
-    const TECHNICAL_SHEETS = ['Users', 'Devices', 'Logs', 'Лист1', 'Лист2'];
-    
-    // Единицы измерения
-    const units = [
-      { value: 'кг', name: 'килограммы' },
-      { value: 'шт', name: 'штуки' },
-      { value: 'короб', name: 'коробки' }
-    ];
+<div class="modal-overlay" id="logoutModal"><div class="modal-content">
+  <div class="modal-header"><h5 class="modal-title"><i class="bi bi-box-arrow-right me-2"></i>Подтверждение выхода</h5></div>
+  <div class="modal-body">
+    <div class="text-center mb-4"><i class="bi bi-question-circle" style="font-size: 3rem; color: #3498db;"></i></div>
+    <h5 class="mb-3 text-center">Вы уверены, что хотите выйти?</h5>
+    <div class="mt-4"><div class="form-check">
+      <input class="form-check-input" type="checkbox" id="allowOtherDevices">
+      <label class="form-check-label" for="allowOtherDevices">Разрешить вход на других устройствах</label>
+    </div></div>
+  </div>
+  <div class="modal-actions p-3">
+    <button class="btn btn-secondary" onclick="closeLogoutModal()">Отмена</button>
+    <button class="btn btn-danger" onclick="performLogout()">Выйти</button>
+  </div>
+</div></div>
 
-    // Глобальные переменные
-    let currentStep = 1;
-    let userData = null;
-    let currentDepartment = null;
-    let products = [];
-    let filteredProducts = [];
-    let selectedProduct = null;
-    let deviceId = null;
-    let currentPhone = null;
-    let sessionId = null;
-    let isChef = false;
-    let isInventoryActive = false;
-    window.currentEditingProductId = null;
-    window.isEditingName = false;
+<script>
+// ==================== КОНФИГУРАЦИЯ ====================
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbxv6vgchT8tSM4JQe6Eojr-0_31TOMKkOieJwF48Gv_AKuW-cj3v-4gXqCLelqVjaDv/exec';
+const TECHNICAL_SHEETS = ['Users', 'Devices', 'Logs', 'Лист1', 'Лист2'];
+const units = [{ value: 'кг', name: 'килограммы' }, { value: 'шт', name: 'штуки' }, { value: 'короб', name: 'коробки' }];
 
-    // ==================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ====================
-    function getDeviceId() {
-      let storedId = localStorage.getItem('device_id');
-      if (!storedId) {
-        const navigatorInfo = navigator.userAgent + navigator.platform + navigator.language;
-        const timeStamp = new Date().getTime();
-        const random = Math.random().toString(36).substring(2, 15);
-        let hash = 0;
-        for (let i = 0; i < navigatorInfo.length; i++) {
-          const char = navigatorInfo.charCodeAt(i);
-          hash = ((hash << 5) - hash) + char;
-          hash = hash & hash;
-        }
-        storedId = `device_${Math.abs(hash)}_${timeStamp}_${random.substring(0, 8)}`;
-        localStorage.setItem('device_id', storedId);
-      }
-      deviceId = storedId;
-      return storedId;
+// Глобальные переменные
+let currentStep = 1, userData = null, currentDepartment = null, products = [], filteredProducts = [];
+let selectedProduct = null, deviceId = null, currentPhone = null, isChef = false, isInventoryActive = false;
+window.currentEditingProductId = null;
+window.isEditingName = false;
+
+// ==================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ====================
+function getDeviceId() {
+  let storedId = localStorage.getItem('device_id');
+  if (!storedId) {
+    const navigatorInfo = navigator.userAgent + navigator.platform + navigator.language;
+    const timeStamp = new Date().getTime();
+    const random = Math.random().toString(36).substring(2, 15);
+    let hash = 0;
+    for (let i = 0; i < navigatorInfo.length; i++) {
+      const char = navigatorInfo.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash;
     }
-
-    function showLoader() {
-      hideLoader();
-      const loader = document.createElement('div');
-      loader.className = 'loader';
-      loader.id = 'globalLoader';
-      document.body.appendChild(loader);
-    }
-
-    function hideLoader() {
-      const loader = document.getElementById('globalLoader');
-      if (loader) loader.remove();
-    }
-
-    function showNotification(message, type = 'success') {
-      const notification = document.createElement('div');
-      notification.className = `notification ${type}`;
-      notification.textContent = message;
-      document.body.appendChild(notification);
-      setTimeout(() => {
-        notification.style.opacity = '0';
-        notification.style.transform = 'translateY(-20px)';
-        setTimeout(() => notification.remove(), 300);
-      }, 3000);
-    }
-
-    
-      // ==================== API ВЫЗОВЫ ЧЕРЕЗ CORS-ПРОКСИ ====================
-  async function callGAS(action, params = {}) {
-    try {
-      // Строим URL с параметрами
-      const url = new URL(GAS_URL);
-      url.searchParams.append('action', action);
-      Object.keys(params).forEach(key => {
-        if (params[key] !== undefined && params[key] !== null) {
-          url.searchParams.append(key, params[key].toString());
-        }
-      });
-      
-      console.log(`Calling GAS: ${action}`, params);
-      
-      // Используем публичный CORS-прокси
-      const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url.toString())}`;
-      
-      const response = await fetch(proxyUrl, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
-      
-      const result = await response.json();
-      console.log(`GAS response for ${action}:`, result);
-      return result;
-      
-    } catch (error) {
-      console.error(`API Error (${action}):`, error);
-      return { error: error.message };
-    }
+    storedId = `device_${Math.abs(hash)}_${timeStamp}_${random.substring(0, 8)}`;
+    localStorage.setItem('device_id', storedId);
   }
+  deviceId = storedId;
+  return storedId;
+}
 
-    // ==================== АВТОРИЗАЦИЯ И СЕССИЯ ====================
-    async function checkSession() {
-      const result = await callGAS('checkSession', { deviceId: getDeviceId() });
-      if (result.success && result.phone) {
-        currentPhone = result.phone;
-        sessionId = result.sessionId;
-        document.getElementById('phone').value = result.phone;
-        document.getElementById('headerActions').style.display = 'block';
-        await autoAuthorize(result.phone);
-      } else {
-        document.getElementById('headerActions').style.display = 'none';
+function showLoader() {
+  hideLoader();
+  const loader = document.createElement('div');
+  loader.className = 'loader';
+  loader.id = 'globalLoader';
+  document.body.appendChild(loader);
+}
+
+function hideLoader() {
+  const loader = document.getElementById('globalLoader');
+  if (loader) loader.remove();
+}
+
+function showNotification(message, type = 'success') {
+  const notification = document.createElement('div');
+  notification.className = `notification ${type}`;
+  notification.textContent = message;
+  document.body.appendChild(notification);
+  setTimeout(() => {
+    notification.style.opacity = '0';
+    setTimeout(() => notification.remove(), 300);
+  }, 3000);
+}
+
+// ==================== API ВЫЗОВЫ ЧЕРЕЗ CORS-ПРОКСИ ====================
+async function callGAS(action, params = {}) {
+  try {
+    const url = new URL(GAS_URL);
+    url.searchParams.append('action', action);
+    Object.keys(params).forEach(key => {
+      if (params[key] !== undefined && params[key] !== null) {
+        url.searchParams.append(key, params[key].toString());
       }
-    }
-
-    async function autoAuthorize(phone) {
-      showLoader();
-      const result = await callGAS('authorize', { phone, deviceId: getDeviceId() });
-      hideLoader();
-      if (!result.error) {
-        handleAuthSuccess(result);
-      }
-    }
-
-    async function handleAuthSubmit(e) {
-      e.preventDefault();
-      const phoneInput = document.getElementById('phone').value;
-      const cleanPhone = phoneInput.replace(/\D/g, '');
-      if (cleanPhone.length < 10) {
-        showNotification('Введите корректный номер телефона (минимум 10 цифр)', 'error');
-        return;
-      }
-      const normalizedPhone = cleanPhone.slice(-10);
-      localStorage.setItem('last_phone', normalizedPhone);
-      currentPhone = normalizedPhone;
-      
-      showLoader();
-      const result = await callGAS('authorize', { phone: cleanPhone, deviceId: getDeviceId() });
-      hideLoader();
-      
-      if (result.error) {
-        showNotification(result.error, 'error');
-        return;
-      }
-      handleAuthSuccess(result);
-    }
-
-    function handleAuthSuccess(result) {
-      userData = result;
-      isChef = result.isChef || false;
-      isInventoryActive = result.inventoryActive || false;
-      
-      callGAS('saveSession', { phone: currentPhone, deviceId: getDeviceId() });
-      
-      document.getElementById('headerActions').style.display = 'block';
-      document.getElementById('userWelcome').textContent = `Добро пожаловать, ${result.user.name || 'Пользователь'}!`;
-      
-      const filteredDepartments = result.departments.filter(dept => !TECHNICAL_SHEETS.includes(dept));
-      
-      if (filteredDepartments.length === 0) {
-        showNotification('Нет доступных цехов', 'error');
-        return;
-      }
-      
-      if (filteredDepartments.length > 1) {
-        document.getElementById('headerTitle').textContent = 'Выбор цеха';
-        document.getElementById('backButton').style.display = 'none';
-        renderDepartments(filteredDepartments);
-        goToStep(2);
-      } else {
-        selectDepartment(filteredDepartments[0]);
-      }
-    }
-
-    function renderDepartments(departments) {
-      const container = document.getElementById('departmentsList');
-      container.innerHTML = '';
-      
-      departments.forEach(dept => {
-        const icon = getDepartmentIcon(dept);
-        const card = document.createElement('div');
-        card.className = 'department-card';
-        card.onclick = () => selectDepartment(dept);
-        card.innerHTML = `
-          <div class="department-icon"><i class="bi ${icon}"></i></div>
-          <div class="department-info"><h5>${dept}</h5><p>Нажмите для входа</p></div>
-          <i class="bi bi-chevron-right ms-auto" style="color: #ccc; font-size: 20px;"></i>
-        `;
-        container.appendChild(card);
-      });
-      
-      if (isChef) {
-        const inventoryButton = document.createElement('div');
-        inventoryButton.className = 'mt-4 d-grid';
-        inventoryButton.innerHTML = `
-          <button class="btn ${isInventoryActive ? 'btn-danger' : 'btn-success'} btn-lg" onclick="toggleInventory()">
-            <i class="bi ${isInventoryActive ? 'bi-stop-circle' : 'bi-play-circle'}"></i> 
-            ${isInventoryActive ? 'Закончить инвентаризацию' : 'Начать инвентаризацию'}
-          </button>
-          <small class="text-muted text-center mt-2">${isInventoryActive ? 'Инвентаризация активна' : 'Инвентаризация не активна'}</small>
-        `;
-        container.appendChild(inventoryButton);
-      }
-    }
-
-    function getDepartmentIcon(department) {
-      const dept = department.toLowerCase().trim();
-      if (dept.includes('холодн')) return 'bi-snow2';
-      if (dept.includes('горяч')) return 'bi-fire';
-      if (dept.includes('склад')) return 'bi-box-seam';
-      if (dept.includes('ролл')) return 'bi-egg-fried';
-      return 'bi-building';
-    }
-
-    async function toggleInventory() {
-      showLoader();
-      const result = await callGAS('toggleInventory', { newStatus: !isInventoryActive });
-      hideLoader();
-      if (result.success) {
-        isInventoryActive = result.inventoryActive;
-        showNotification(result.message, 'success');
-        renderProducts();
-      } else {
-        showNotification(result.error || 'Ошибка', 'error');
-      }
-    }
-
-    async function selectDepartment(department) {
-      currentDepartment = department;
-      document.getElementById('headerTitle').textContent = department;
-      if (userData && userData.hasMultipleDepts) {
-        document.getElementById('backButton').style.display = 'block';
-      } else {
-        document.getElementById('backButton').style.display = 'none';
-      }
-      
-      showLoader();
-      const result = await callGAS('getProducts', { department });
-      hideLoader();
-      
-      if (result.error) {
-        showNotification(result.error, 'error');
-        return;
-      }
-      
-      products = result.products || [];
-      filteredProducts = [...products];
-      renderProducts();
-      goToStep(3);
-      
-      const searchContainer = document.getElementById('searchContainer');
-      if (searchContainer) {
-        searchContainer.classList.add('visible', 'collapsed');
-        const searchInput = document.getElementById('searchInput');
-        if (searchInput) searchInput.value = '';
-      }
-    }
-
-    function renderProducts() {
-      const container = document.getElementById('step3');
-      if (!container) return;
-      
-      document.querySelectorAll('.readonly-notice, .alert-success.mt-3').forEach(n => n.remove());
-      
-      if (filteredProducts.length === 0) {
-        container.innerHTML = `<div class="empty-state"><i class="bi bi-box"></i><h3>Нет продуктов</h3></div>`;
-        return;
-      }
-      
-      let html = '<div class="products-list">';
-      filteredProducts.forEach(product => {
-        const stockDisplay = product.stock > 0 ? product.stock : '0';
-        const showEditIcon = isChef;
-        const editIcon = showEditIcon ? `<span class="edit-icon" onclick="event.stopPropagation(); startEditName(${product.id}, '${product.name.replace(/'/g, "\\'")}', event)"><i class="bi bi-pencil"></i></span>` : '';
-        const canOpenModal = isChef || isInventoryActive;
-        const cardClick = (!window.isEditingName && canOpenModal) ? `onclick="openProductModal(${product.id})"` : '';
-        
-        html += `
-          <div class="product-card ${isChef ? 'chef-mode' : ''}" ${cardClick} data-id="${product.id}" style="${!canOpenModal ? 'cursor: default;' : ''}">
-            <div class="product-row">
-              <div class="product-name-container"><span class="product-name">${escapeHtml(product.name)}</span>${editIcon}</div>
-              <div class="product-stock">${stockDisplay}<span class="product-unit">${product.unit}</span></div>
-            </div>
-          </div>
-        `;
-      });
-      html += '</div>';
-      container.innerHTML = html;
-      
-      if (!isChef && !isInventoryActive) {
-        const notice = document.createElement('div');
-        notice.className = 'readonly-notice';
-        notice.innerHTML = '<i class="bi bi-eye"></i> Режим просмотра. Инвентаризация не активна.';
-        container.appendChild(notice);
-      }
-      
-      window.currentEditingProductId = null;
-    }
-
-    function escapeHtml(str) {
-      return str.replace(/[&<>]/g, function(m) {
-        if (m === '&') return '&amp;';
-        if (m === '<') return '&lt;';
-        if (m === '>') return '&gt;';
-        return m;
-      });
-    }
-
-    function initUnits() {
-      const container = document.getElementById('unitsContainer');
-      if (!container) return;
-      container.innerHTML = '';
-      units.forEach(unit => {
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.className = 'unit-btn';
-        button.textContent = unit.value;
-        button.addEventListener('click', function() {
-          document.querySelectorAll('.unit-btn').forEach(btn => btn.classList.remove('active'));
-          this.classList.add('active');
-        });
-        container.appendChild(button);
-      });
-    }
-
-    function filterProducts() {
-      const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
-      filteredProducts = searchTerm ? products.filter(p => p.name.toLowerCase().includes(searchTerm)) : [...products];
-      renderProducts();
-    }
-
-    function clearSearch() {
-      document.getElementById('searchInput').value = '';
-      filterProducts();
-    }
-
-    function toggleSearch() {
-      const container = document.getElementById('searchContainer');
-      const input = document.getElementById('searchInput');
-      if (container.classList.contains('collapsed')) {
-        container.classList.remove('collapsed');
-        if (input) { input.style.display = 'block'; setTimeout(() => input.focus(), 100); }
-      } else {
-        container.classList.add('collapsed');
-        if (input) { input.style.display = 'none'; input.value = ''; }
-        filterProducts();
-      }
-    }
-
-    function startEditName(productId, currentName, event) {
-      if (event) { event.stopPropagation(); event.preventDefault(); }
-      if (!isChef) { showNotification('Только шеф-повар может редактировать названия', 'error'); return; }
-      
-      closeAllEditors();
-      const productCard = document.querySelector(`.product-card[data-id="${productId}"]`);
-      if (!productCard) return;
-      
-      productCard.classList.add('editing-mode');
-      const nameContainer = productCard.querySelector('.product-name-container');
-      window.currentEditingProductId = productId;
-      window.isEditingName = true;
-      
-      nameContainer.innerHTML = `
-        <div style="flex:1;">
-          <input type="text" class="edit-name-input" id="editNameInput_${productId}" value="${currentName.replace(/"/g, '&quot;')}">
-          <div class="edit-actions">
-            <button class="btn btn-sm btn-success" onclick="event.stopPropagation(); saveNameEdit(${productId})"><i class="bi bi-check"></i> Сохранить</button>
-            <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation(); cancelNameEdit(${productId})"><i class="bi bi-x"></i> Отмена</button>
-          </div>
-        </div>
-      `;
-      setTimeout(() => {
-        const input = document.getElementById(`editNameInput_${productId}`);
-        if (input) input.focus();
-      }, 50);
-    }
-
-    function closeAllEditors() {
-      if (window.currentEditingProductId) {
-        renderProducts();
-        window.currentEditingProductId = null;
-      }
-      window.isEditingName = false;
-    }
-
-    async function saveNameEdit(productId) {
-      const newName = document.getElementById(`editNameInput_${productId}`).value.trim();
-      if (!newName) { showNotification('Название не может быть пустым', 'error'); return; }
-      
-      const product = products.find(p => p.id === productId);
-      if (!product) return;
-      
-      showLoader();
-      const result = await callGAS('updateProductName', { departmentName: currentDepartment, rowNumber: product.row, newName });
-      hideLoader();
-      
-      if (result.success) {
-        product.name = newName;
-        filteredProducts = filteredProducts.map(p => p.id === productId ? { ...p, name: newName } : p);
-        renderProducts();
-        showNotification('Название обновлено', 'success');
-      } else {
-        showNotification(result.error || 'Ошибка обновления', 'error');
-      }
-      window.isEditingName = false;
-      window.currentEditingProductId = null;
-    }
-
-    function cancelNameEdit(productId) {
-      renderProducts();
-      window.isEditingName = false;
-      window.currentEditingProductId = null;
-    }
-
-    function openProductModal(productId) {
-      if (window.isEditingName) return;
-      if (!isChef && !isInventoryActive) { showNotification('Инвентаризация не активна', 'info'); return; }
-      
-      selectedProduct = filteredProducts.find(p => p.id === productId);
-      if (!selectedProduct) return;
-      
-      document.getElementById('modalProductName').textContent = selectedProduct.name;
-      document.getElementById('currentStockValue').textContent = `${selectedProduct.stock} ${selectedProduct.unit}`;
-      document.getElementById('quantityInput').value = '';
-      
-      let unitToSelect = selectedProduct.defaultUnit || selectedProduct.unit || 'кг';
-      document.querySelectorAll('.unit-btn').forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-value') === unitToSelect) btn.classList.add('active');
-      });
-      
-      document.getElementById('productModal').classList.add('active');
-      document.body.classList.add('modal-open');
-    }
-
-    function closeProductModal() {
-      document.getElementById('productModal').classList.remove('active');
-      document.body.classList.remove('modal-open');
-      selectedProduct = null;
-    }
-
-    async function updateProduct(isReplace) {
-      const quantityInput = document.getElementById('quantityInput');
-      const newQuantity = parseFloat(quantityInput.value);
-      const selectedUnitBtn = document.querySelector('.unit-btn.active');
-      const newUnit = selectedUnitBtn ? selectedUnitBtn.getAttribute('data-value') : selectedProduct.unit;
-      
-      if (isNaN(newQuantity) || newQuantity < 0) { showNotification('Введите корректное количество', 'error'); return; }
-      if (!selectedUnitBtn) { showNotification('Выберите единицу измерения', 'error'); return; }
-      
-      showLoader();
-      const result = await callGAS('updateProductStock', {
-        departmentName: currentDepartment,
-        rowNumber: selectedProduct.row,
-        quantity: newQuantity,
-        unit: newUnit,
-        isReplace: isReplace
-      });
-      hideLoader();
-      
-      if (result.success) {
-        selectedProduct.stock = newQuantity;
-        selectedProduct.unit = newUnit;
-        renderProducts();
-        showNotification(`${selectedProduct.name}: ${isReplace ? 'заменен на' : 'добавлено'} ${newQuantity} ${newUnit}`, 'success');
-        closeProductModal();
-      } else {
-        showNotification(result.error || 'Ошибка обновления', 'error');
-      }
-    }
-
-    function goToStep(step) {
-      document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
-      document.getElementById(`step${step}`).classList.add('active');
-      currentStep = step;
-      
-      const searchContainer = document.getElementById('searchContainer');
-      if (step === 3) {
-        searchContainer.classList.add('visible');
-        document.getElementById('mainContent').scrollTop = 0;
-      } else {
-        searchContainer.classList.remove('visible');
-      }
-    }
-
-    function goBack() {
-      if (currentStep === 3 && userData && userData.hasMultipleDepts) {
-        document.getElementById('headerTitle').textContent = 'Выбор цеха';
-        document.getElementById('backButton').style.display = 'none';
-        const filteredDepartments = userData.departments.filter(dept => !TECHNICAL_SHEETS.includes(dept));
-        renderDepartments(filteredDepartments);
-        goToStep(2);
-      }
-    }
-
-    function showLogoutModal() {
-      document.getElementById('logoutModal').classList.add('active');
-      document.body.classList.add('modal-open');
-    }
-
-    function closeLogoutModal() {
-      document.getElementById('logoutModal').classList.remove('active');
-      document.body.classList.remove('modal-open');
-    }
-
-    async function performLogout() {
-      const allowOtherDevices = document.getElementById('allowOtherDevices').checked;
-      showLoader();
-      const result = await callGAS('logout', { deviceId: getDeviceId(), allowOtherDevices });
-      hideLoader();
-      
-      if (result.success) {
-        closeLogoutModal();
-        userData = null;
-        currentDepartment = null;
-        products = [];
-        filteredProducts = [];
-        currentPhone = null;
-        document.getElementById('authForm').reset();
-        document.getElementById('backButton').style.display = 'none';
-        document.getElementById('headerTitle').textContent = 'Инвентаризация';
-        const savedPhone = localStorage.getItem('last_phone');
-        if (savedPhone) document.getElementById('phone').value = savedPhone;
-        document.getElementById('headerActions').style.display = 'none';
-        goToStep(1);
-        showNotification(result.message || 'Вы успешно вышли', 'success');
-      } else {
-        showNotification(result.error || 'Ошибка при выходе', 'error');
-      }
-    }
-
-    // ==================== ИНИЦИАЛИЗАЦИЯ ====================
-    document.addEventListener('DOMContentLoaded', function() {
-      getDeviceId();
-      initUnits();
-      checkSession();
-      
-      document.getElementById('authForm').addEventListener('submit', handleAuthSubmit);
-      document.getElementById('searchInput').addEventListener('input', filterProducts);
-      document.getElementById('clearSearchBtn').addEventListener('click', clearSearch);
-      document.querySelector('.search-icon').addEventListener('click', toggleSearch);
-      
-      document.getElementById('productModal').addEventListener('click', function(e) {
-        if (e.target === this) closeProductModal();
-      });
-      
-      document.getElementById('replaceBtn').addEventListener('click', function() {
-        if (selectedProduct) updateProduct(true);
-      });
-      
-      document.getElementById('addBtn').addEventListener('click', function() {
-        if (selectedProduct) updateProduct(false);
-      });
-      
-      document.querySelectorAll('.quick-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-          const value = parseFloat(this.getAttribute('data-value'));
-          const input = document.getElementById('quantityInput');
-          input.value = (parseFloat(input.value) || 0) + value;
-        });
-      });
-      
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-          closeProductModal();
-          closeLogoutModal();
-        }
-      });
-      
-      const savedPhone = localStorage.getItem('last_phone');
-      if (savedPhone) document.getElementById('phone').value = savedPhone;
     });
-  </script>
+    
+    console.log(`Calling GAS: ${action}`, params);
+    
+    // CORS-прокси
+    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url.toString())}`;
+    const response = await fetch(proxyUrl);
+    
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const result = await response.json();
+    console.log(`GAS response for ${action}:`, result);
+    return result;
+  } catch (error) {
+    console.error(`API Error (${action}):`, error);
+    return { error: error.message };
+  }
+}
+
+// ==================== АВТОРИЗАЦИЯ ====================
+async function checkSession() {
+  const result = await callGAS('checkSession', { deviceId: getDeviceId() });
+  if (result.success && result.phone) {
+    currentPhone = result.phone;
+    document.getElementById('phone').value = result.phone;
+    document.getElementById('headerActions').style.display = 'block';
+    await autoAuthorize(result.phone);
+  } else {
+    document.getElementById('headerActions').style.display = 'none';
+  }
+}
+
+async function autoAuthorize(phone) {
+  showLoader();
+  const result = await callGAS('authorize', { phone, deviceId: getDeviceId() });
+  hideLoader();
+  if (!result.error) handleAuthSuccess(result);
+}
+
+async function handleAuthSubmit(e) {
+  e.preventDefault();
+  const phoneInput = document.getElementById('phone').value;
+  const cleanPhone = phoneInput.replace(/\D/g, '');
+  if (cleanPhone.length < 10) {
+    showNotification('Введите корректный номер телефона', 'error');
+    return;
+  }
+  const normalizedPhone = cleanPhone.slice(-10);
+  localStorage.setItem('last_phone', normalizedPhone);
+  currentPhone = normalizedPhone;
+  
+  showLoader();
+  const result = await callGAS('authorize', { phone: cleanPhone, deviceId: getDeviceId() });
+  hideLoader();
+  
+  if (result.error) {
+    showNotification(result.error, 'error');
+    return;
+  }
+  handleAuthSuccess(result);
+}
+
+function handleAuthSuccess(result) {
+  userData = result;
+  isChef = result.isChef || false;
+  isInventoryActive = result.inventoryActive || false;
+  
+  callGAS('saveSession', { phone: currentPhone, deviceId: getDeviceId() });
+  
+  document.getElementById('headerActions').style.display = 'block';
+  document.getElementById('userWelcome').textContent = `Добро пожаловать, ${result.user.name || 'Пользователь'}!`;
+  
+  const filteredDepartments = result.departments.filter(dept => !TECHNICAL_SHEETS.includes(dept));
+  
+  if (filteredDepartments.length === 0) {
+    showNotification('Нет доступных цехов', 'error');
+    return;
+  }
+  
+  if (filteredDepartments.length > 1) {
+    document.getElementById('headerTitle').textContent = 'Выбор цеха';
+    document.getElementById('backButton').style.display = 'none';
+    renderDepartments(filteredDepartments);
+    goToStep(2);
+  } else {
+    selectDepartment(filteredDepartments[0]);
+  }
+}
+
+function renderDepartments(departments) {
+  const container = document.getElementById('departmentsList');
+  container.innerHTML = '';
+  
+  departments.forEach(dept => {
+    let icon = 'bi-building';
+    const d = dept.toLowerCase();
+    if (d.includes('холодн')) icon = 'bi-snow2';
+    else if (d.includes('горяч')) icon = 'bi-fire';
+    else if (d.includes('склад')) icon = 'bi-box-seam';
+    else if (d.includes('ролл')) icon = 'bi-egg-fried';
+    
+    const card = document.createElement('div');
+    card.className = 'department-card';
+    card.onclick = () => selectDepartment(dept);
+    card.innerHTML = `
+      <div class="department-icon"><i class="bi ${icon}"></i></div>
+      <div class="department-info"><h5>${dept}</h5><p>Нажмите для входа</p></div>
+      <i class="bi bi-chevron-right ms-auto" style="color: #ccc; font-size: 20px;"></i>
+    `;
+    container.appendChild(card);
+  });
+  
+  if (isChef) {
+    const btn = document.createElement('div');
+    btn.className = 'mt-4 d-grid';
+    btn.innerHTML = `
+      <button class="btn ${isInventoryActive ? 'btn-danger' : 'btn-success'} btn-lg" onclick="toggleInventory()">
+        <i class="bi ${isInventoryActive ? 'bi-stop-circle' : 'bi-play-circle'}"></i> 
+        ${isInventoryActive ? 'Закончить инвентаризацию' : 'Начать инвентаризацию'}
+      </button>
+    `;
+    container.appendChild(btn);
+  }
+}
+
+async function toggleInventory() {
+  showLoader();
+  const result = await callGAS('toggleInventory', { newStatus: !isInventoryActive });
+  hideLoader();
+  if (result.success) {
+    isInventoryActive = result.inventoryActive;
+    showNotification(result.message, 'success');
+    renderProducts();
+  } else {
+    showNotification(result.error || 'Ошибка', 'error');
+  }
+}
+
+async function selectDepartment(department) {
+  currentDepartment = department;
+  document.getElementById('headerTitle').textContent = department;
+  document.getElementById('backButton').style.display = userData?.hasMultipleDepts ? 'block' : 'none';
+  
+  showLoader();
+  const result = await callGAS('getProducts', { department });
+  hideLoader();
+  
+  if (result.error) {
+    showNotification(result.error, 'error');
+    return;
+  }
+  
+  products = result.products || [];
+  filteredProducts = [...products];
+  renderProducts();
+  goToStep(3);
+  
+  const sc = document.getElementById('searchContainer');
+  if (sc) { sc.classList.add('visible', 'collapsed'); }
+}
+
+function renderProducts() {
+  const container = document.getElementById('step3');
+  if (!container) return;
+  
+  if (filteredProducts.length === 0) {
+    container.innerHTML = `<div class="empty-state text-center p-5"><i class="bi bi-box" style="font-size:50px;color:#ddd;"></i><h3>Нет продуктов</h3></div>`;
+    return;
+  }
+  
+  let html = '<div class="products-list">';
+  filteredProducts.forEach(product => {
+    const stockDisplay = product.stock > 0 ? product.stock : '0';
+    const editIcon = isChef ? `<span class="edit-icon" onclick="event.stopPropagation(); startEditName(${product.id}, '${product.name.replace(/'/g, "\\'")}', event)"><i class="bi bi-pencil"></i></span>` : '';
+    const canOpen = isChef || isInventoryActive;
+    const clickAttr = (!window.isEditingName && canOpen) ? `onclick="openProductModal(${product.id})"` : '';
+    
+    html += `
+      <div class="product-card ${isChef ? 'chef-mode' : ''}" ${clickAttr} data-id="${product.id}" style="${!canOpen ? 'cursor:default;' : ''}">
+        <div class="product-row">
+          <div class="product-name-container"><span class="product-name">${escapeHtml(product.name)}</span>${editIcon}</div>
+          <div class="product-stock">${stockDisplay}<span class="product-unit">${product.unit}</span></div>
+        </div>
+      </div>
+    `;
+  });
+  html += '</div>';
+  container.innerHTML = html;
+  
+  if (!isChef && !isInventoryActive) {
+    const notice = document.createElement('div');
+    notice.className = 'readonly-notice';
+    notice.innerHTML = '<i class="bi bi-eye"></i> Режим просмотра. Инвентаризация не активна.';
+    container.appendChild(notice);
+  }
+}
+
+function escapeHtml(str) { return str.replace(/[&<>]/g, function(m) { return {'&':'&amp;','<':'&lt;','>':'&gt;'}[m]; }); }
+
+function initUnits() {
+  const container = document.getElementById('unitsContainer');
+  if (!container) return;
+  container.innerHTML = '';
+  units.forEach(unit => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'unit-btn';
+    btn.textContent = unit.value;
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+    });
+    container.appendChild(btn);
+  });
+}
+
+function filterProducts() {
+  const term = document.getElementById('searchInput').value.toLowerCase().trim();
+  filteredProducts = term ? products.filter(p => p.name.toLowerCase().includes(term)) : [...products];
+  renderProducts();
+}
+
+function toggleSearch() {
+  const container = document.getElementById('searchContainer');
+  const input = document.getElementById('searchInput');
+  if (container.classList.contains('collapsed')) {
+    container.classList.remove('collapsed');
+    if (input) { input.style.display = 'block'; setTimeout(() => input.focus(), 100); }
+  } else {
+    container.classList.add('collapsed');
+    if (input) { input.style.display = 'none'; input.value = ''; filterProducts(); }
+  }
+}
+
+function startEditName(productId, currentName, event) {
+  if (event) { event.stopPropagation(); event.preventDefault(); }
+  if (!isChef) { showNotification('Только шеф-повар может редактировать названия', 'error'); return; }
+  closeAllEditors();
+  
+  const card = document.querySelector(`.product-card[data-id="${productId}"]`);
+  if (!card) return;
+  
+  window.currentEditingProductId = productId;
+  window.isEditingName = true;
+  
+  const nameContainer = card.querySelector('.product-name-container');
+  nameContainer.innerHTML = `
+    <div style="flex:1;">
+      <input type="text" class="edit-name-input" id="editNameInput_${productId}" value="${currentName.replace(/"/g, '&quot;')}" style="width:100%;padding:8px;border:2px solid #3498db;border-radius:8px;">
+      <div class="edit-actions" style="margin-top:8px;display:flex;gap:8px;">
+        <button class="btn btn-sm btn-success" onclick="event.stopPropagation(); saveNameEdit(${productId})">Сохранить</button>
+        <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation(); cancelNameEdit(${productId})">Отмена</button>
+      </div>
+    </div>
+  `;
+  setTimeout(() => { const inp = document.getElementById(`editNameInput_${productId}`); if (inp) inp.focus(); }, 50);
+}
+
+async function saveNameEdit(productId) {
+  const newName = document.getElementById(`editNameInput_${productId}`).value.trim();
+  if (!newName) { showNotification('Название не может быть пустым', 'error'); return; }
+  
+  const product = products.find(p => p.id === productId);
+  if (!product) return;
+  
+  showLoader();
+  const result = await callGAS('updateProductName', { departmentName: currentDepartment, rowNumber: product.row, newName });
+  hideLoader();
+  
+  if (result.success) {
+    product.name = newName;
+    filteredProducts = filteredProducts.map(p => p.id === productId ? { ...p, name: newName } : p);
+    renderProducts();
+    showNotification('Название обновлено', 'success');
+  } else {
+    showNotification(result.error || 'Ошибка', 'error');
+  }
+  window.isEditingName = false;
+  window.currentEditingProductId = null;
+}
+
+function cancelNameEdit() {
+  renderProducts();
+  window.isEditingName = false;
+  window.currentEditingProductId = null;
+}
+
+function closeAllEditors() {
+  if (window.currentEditingProductId) { renderProducts(); window.currentEditingProductId = null; }
+  window.isEditingName = false;
+}
+
+function openProductModal(productId) {
+  if (window.isEditingName) return;
+  if (!isChef && !isInventoryActive) { showNotification('Инвентаризация не активна', 'info'); return; }
+  
+  selectedProduct = filteredProducts.find(p => p.id === productId);
+  if (!selectedProduct) return;
+  
+  document.getElementById('modalProductName').textContent = selectedProduct.name;
+  document.getElementById('currentStockValue').textContent = `${selectedProduct.stock} ${selectedProduct.unit}`;
+  document.getElementById('quantityInput').value = '';
+  
+  let unitToSelect = selectedProduct.defaultUnit || selectedProduct.unit || 'кг';
+  document.querySelectorAll('.unit-btn').forEach(btn => {
+    btn.classList.remove('active');
+    if (btn.getAttribute('data-value') === unitToSelect) btn.classList.add('active');
+  });
+  
+  document.getElementById('productModal').classList.add('active');
+  document.body.classList.add('modal-open');
+}
+
+function closeProductModal() {
+  document.getElementById('productModal').classList.remove('active');
+  document.body.classList.remove('modal-open');
+  selectedProduct = null;
+}
+
+async function updateProduct(isReplace) {
+  const newQuantity = parseFloat(document.getElementById('quantityInput').value);
+  const selectedUnitBtn = document.querySelector('.unit-btn.active');
+  const newUnit = selectedUnitBtn ? selectedUnitBtn.getAttribute('data-value') : selectedProduct.unit;
+  
+  if (isNaN(newQuantity) || newQuantity < 0) { showNotification('Введите корректное количество', 'error'); return; }
+  if (!selectedUnitBtn) { showNotification('Выберите единицу измерения', 'error'); return; }
+  
+  showLoader();
+  const result = await callGAS('updateProductStock', {
+    departmentName: currentDepartment,
+    rowNumber: selectedProduct.row,
+    quantity: newQuantity,
+    unit: newUnit,
+    isReplace: isReplace
+  });
+  hideLoader();
+  
+  if (result.success) {
+    selectedProduct.stock = newQuantity;
+    selectedProduct.unit = newUnit;
+    renderProducts();
+    showNotification(`${selectedProduct.name}: ${isReplace ? 'заменен на' : 'добавлено'} ${newQuantity} ${newUnit}`, 'success');
+    closeProductModal();
+  } else {
+    showNotification(result.error || 'Ошибка', 'error');
+  }
+}
+
+function goToStep(step) {
+  document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+  document.getElementById(`step${step}`).classList.add('active');
+  currentStep = step;
+  const sc = document.getElementById('searchContainer');
+  if (step === 3) { if (sc) sc.classList.add('visible'); document.getElementById('mainContent').scrollTop = 0; }
+  else { if (sc) sc.classList.remove('visible'); }
+}
+
+function goBack() {
+  if (currentStep === 3 && userData?.hasMultipleDepts) {
+    document.getElementById('headerTitle').textContent = 'Выбор цеха';
+    document.getElementById('backButton').style.display = 'none';
+    const filtered = userData.departments.filter(d => !TECHNICAL_SHEETS.includes(d));
+    renderDepartments(filtered);
+    goToStep(2);
+  }
+}
+
+function showLogoutModal() {
+  document.getElementById('logoutModal').classList.add('active');
+  document.body.classList.add('modal-open');
+}
+
+function closeLogoutModal() {
+  document.getElementById('logoutModal').classList.remove('active');
+  document.body.classList.remove('modal-open');
+}
+
+async function performLogout() {
+  const allowOtherDevices = document.getElementById('allowOtherDevices').checked;
+  showLoader();
+  const result = await callGAS('logout', { deviceId: getDeviceId(), allowOtherDevices });
+  hideLoader();
+  
+  if (result.success) {
+    closeLogoutModal();
+    userData = null;
+    currentDepartment = null;
+    products = [];
+    filteredProducts = [];
+    currentPhone = null;
+    document.getElementById('authForm').reset();
+    document.getElementById('headerTitle').textContent = 'Инвентаризация';
+    const saved = localStorage.getItem('last_phone');
+    if (saved) document.getElementById('phone').value = saved;
+    document.getElementById('headerActions').style.display = 'none';
+    goToStep(1);
+    showNotification(result.message || 'Вы вышли', 'success');
+  } else {
+    showNotification(result.error || 'Ошибка', 'error');
+  }
+}
+
+// ==================== ИНИЦИАЛИЗАЦИЯ ====================
+document.addEventListener('DOMContentLoaded', function() {
+  getDeviceId();
+  initUnits();
+  checkSession();
+  
+  document.getElementById('authForm').addEventListener('submit', handleAuthSubmit);
+  document.getElementById('searchInput').addEventListener('input', filterProducts);
+  document.getElementById('clearSearchBtn').addEventListener('click', () => {
+    document.getElementById('searchInput').value = '';
+    filterProducts();
+  });
+  document.querySelector('.search-icon')?.addEventListener('click', toggleSearch);
+  
+  document.getElementById('productModal').addEventListener('click', function(e) {
+    if (e.target === this) closeProductModal();
+  });
+  document.getElementById('replaceBtn').addEventListener('click', () => { if (selectedProduct) updateProduct(true); });
+  document.getElementById('addBtn').addEventListener('click', () => { if (selectedProduct) updateProduct(false); });
+  document.getElementById('logoutBtn').addEventListener('click', showLogoutModal);
+  
+  document.querySelectorAll('.quick-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const input = document.getElementById('quantityInput');
+      input.value = (parseFloat(input.value) || 0) + parseFloat(this.getAttribute('data-value'));
+    });
+  });
+  
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') { closeProductModal(); closeLogoutModal(); }
+  });
+  
+  const savedPhone = localStorage.getItem('last_phone');
+  if (savedPhone) document.getElementById('phone').value = savedPhone;
+});
+</script>
 </body>
 </html>
