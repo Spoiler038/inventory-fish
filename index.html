@@ -587,16 +587,52 @@ function renderDepartments(departments) {
     `;
     container.appendChild(btn);
   }
+  if (isChef) {
+  const btnDiv = document.createElement('div');
+  btnDiv.className = 'mt-3 d-grid';
+  btnDiv.innerHTML = `
+    <button class="btn ${isInventoryActive ? 'btn-danger' : 'btn-success'} inventory-toggle-btn" id="inventoryToggleBtn">
+      <i class="bi ${isInventoryActive ? 'bi-stop-circle' : 'bi-play-circle'}"></i> 
+      ${isInventoryActive ? 'Закончить инвентаризацию' : 'Начать инвентаризацию'}
+    </button>
+    <small class="text-muted text-center mt-1 small">${isInventoryActive ? 'Инвентаризация активна' : 'Инвентаризация не активна'}</small>
+  `;
+  
+  // Добавляем обработчик отдельно, чтобы он не потерялся
+  const btn = btnDiv.querySelector('#inventoryToggleBtn');
+  if (btn) {
+    btn.onclick = () => toggleInventory();
+  }
+  
+  container.appendChild(btnDiv);
+}
 }
 
 async function toggleInventory() {
   showLoader();
   const result = await callGAS('toggleInventory', { newStatus: !isInventoryActive });
   hideLoader();
+  
   if (result.success) {
     isInventoryActive = result.inventoryActive;
     showNotification(result.message, 'success');
-    if (currentDepartment) renderProducts();
+    
+    // Обновляем кнопку в текущем списке цехов
+    const inventoryButton = document.querySelector('.mt-3.d-grid');
+    if (inventoryButton) {
+      inventoryButton.innerHTML = `
+        <button class="btn ${isInventoryActive ? 'btn-danger' : 'btn-success'} inventory-toggle-btn" onclick="toggleInventory()">
+          <i class="bi ${isInventoryActive ? 'bi-stop-circle' : 'bi-play-circle'}"></i> 
+          ${isInventoryActive ? 'Закончить инвентаризацию' : 'Начать инвентаризацию'}
+        </button>
+        <small class="text-muted text-center mt-1 small">${isInventoryActive ? 'Инвентаризация активна - все повара могут вносить изменения' : 'Инвентаризация не активна - повара могут только просматривать'}</small>
+      `;
+    }
+    
+    // Если мы в цехе - обновляем карточки продуктов
+    if (currentDepartment) {
+      renderProducts();
+    }
   } else {
     showNotification(result.error || 'Ошибка', 'error');
   }
@@ -954,6 +990,17 @@ document.addEventListener('DOMContentLoaded', function() {
   
   const savedPhone = localStorage.getItem('last_phone');
   if (savedPhone) document.getElementById('phone').value = savedPhone;
+
+  // ==================== РЕГИСТРАЦИЯ SERVICE WORKER ДЛЯ PWA ====================
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('"/inventory-fish/sw.js')
+    .then(function(registration) {
+      console.log('Service Worker registered successfully:', registration.scope);
+    })
+    .catch(function(error) {
+      console.log('Service Worker registration failed:', error);
+    });
+}
 });
 </script>
 </body>
