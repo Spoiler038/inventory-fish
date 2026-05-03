@@ -993,7 +993,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // ==================== РЕГИСТРАЦИЯ SERVICE WORKER ДЛЯ PWA ====================
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('"/inventory-fish/sw.js')
+  navigator.serviceWorker.register('/inventory-fish/sw.js')
     .then(function(registration) {
       console.log('Service Worker registered successfully:', registration.scope);
     })
