@@ -1,7 +1,7 @@
 {
   "name": "Инвентаризация Ресторана",
-  "short_name": "Инвент. кухня",
-  "description": "Учёт продуктов на складе и в цехах",
+  "short_name": "Кухня",
+  "description": "Учёт продуктов Рыба Есть",
   "start_url": "/inventory-fish/",
   "scope": "/inventory-fish/",
   "display": "standalone",
