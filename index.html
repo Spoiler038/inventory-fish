@@ -589,18 +589,33 @@ function showLoader() {
   loader.className = 'loader';
   loader.id = 'globalLoader';
   
-  // Принудительное центрирование
-  loader.style.position = 'fixed';
-  loader.style.top = '50%';
-  loader.style.left = '50%';
-  loader.style.transform = 'translate(-50%, -50%)';
+  // Принудительное центрирование через JS
+  const updateLoaderPosition = () => {
+    loader.style.position = 'fixed';
+    loader.style.top = '50%';
+    loader.style.left = '50%';
+    loader.style.marginTop = '-25px';
+    loader.style.marginLeft = '-25px';
+  };
   
+  updateLoaderPosition();
   document.body.appendChild(loader);
+  
+  // Обновляем позицию при изменении размера окна
+  window.addEventListener('resize', updateLoaderPosition);
+  
+  // Сохраняем обработчик для удаления
+  loader._resizeHandler = updateLoaderPosition;
 }
 
 function hideLoader() {
   const loader = document.getElementById('globalLoader');
-  if (loader) loader.remove();
+  if (loader) {
+    if (loader._resizeHandler) {
+      window.removeEventListener('resize', loader._resizeHandler);
+    }
+    loader.remove();
+  }
 }
 
 function showNotification(message, type = 'success') {
