@@ -175,6 +175,13 @@
       display: none;
       justify-content: flex-start;
     }
+    .modal-actions .btn {
+  flex: 1;
+  max-width: 140px;
+  text-align: center;
+  justify-content: center;
+  padding: 12px 16px;
+}
     .search-container.visible { display: flex !important; }
     .search-container.collapsed .search-input,
     .search-container.collapsed .clear-search { display: none; }
@@ -282,6 +289,13 @@
       gap: 8px;
       font-size: 14px;
     }
+    .modal-actions .btn {
+  flex: 1;
+  max-width: 140px;
+  text-align: center;
+  justify-content: center;
+  padding: 12px 16px;
+}
     .btn-primary { background-color: var(--accent-color); color: white; }
     .btn-success { background-color: var(--success-color); color: white; }
     .btn-danger { background-color: #e74c3c; color: white; }
@@ -292,7 +306,12 @@
     .units-container { display: flex; gap: 4px; }
     .unit-btn { padding: 10px 6px; border: 2px solid #e0e0e0; border-radius: 10px; background: white; font-size: 12px; font-weight: 600; cursor: pointer; min-width: 45px; }
     .unit-btn.active { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
-    .modal-actions { display: flex; gap: 8px; margin-top: 15px; }
+    .modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  justify-content: center;
+}
     .product-name-container { display: flex; align-items: center; gap: 6px; flex: 1; }
     .readonly-notice { background: #f39c12; color: white; padding: 10px; border-radius: 10px; text-align: center; margin-top: 15px; font-size: 13px; }
     .current-stock { display: flex; justify-content: space-between; margin-bottom: 15px; background: #f8f9fa; padding: 10px; border-radius: 10px; font-size: 14px; }
@@ -311,6 +330,13 @@
       .unit-btn { padding: 8px 4px; min-width: 40px; font-size: 11px; }
       .btn { padding: 10px; font-size: 13px; }
        #step1.active { min-height: 75vh; }
+      .modal-actions {
+        gap: 10px;
+        }
+       .modal-actions .btn {
+        min-width: 100px;
+        padding: 10px 12px;
+        }
     }
     
     /* Скрытие сплеша после загрузки */
