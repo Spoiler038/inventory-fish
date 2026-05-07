@@ -327,6 +327,46 @@
     .mt-3 { margin-top: 15px; }
     .d-grid { display: grid; }
     .inventory-toggle-btn { font-size: 14px; padding: 10px; }
+
+    /* Кнопка "Наверх" */
+.scroll-top-btn {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+  z-index: 999;
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
+}
+
+.scroll-top-btn.show {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+.scroll-top-btn:active {
+  transform: scale(0.9);
+  background: linear-gradient(135deg, #2980b9 0%, #1f6ea0 100%);
+}
+
+.scroll-top-btn i {
+  font-size: 28px;
+  font-weight: bold;
+}
+    
     @media (max-width: 480px) { 
       .department-icon i { font-size: 22px; }
       .unit-btn { padding: 8px 4px; min-width: 40px; font-size: 11px; }
@@ -402,6 +442,16 @@
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
+
+    .scroll-top-btn {
+    bottom: 70px;
+    right: 15px;
+    width: 44px;
+    height: 44px;
+  }
+  .scroll-top-btn i {
+    font-size: 24px;
+  }
     
     @keyframes fadeInUp {
       from {
@@ -506,6 +556,10 @@
       <button class="clear-search" id="clearSearchBtn" style="display:none;">✖</button>
     </div>
   </div>
+  <!-- Кнопка "Наверх" -->
+<button class="scroll-top-btn" id="scrollTopBtn" style="display: none;" onclick="scrollToTop()">
+  <i class="bi bi-arrow-up-short"></i>
+</button>
 </div>
 
 <div class="modal-overlay" id="productModal"><div class="modal-content">
@@ -1147,6 +1201,50 @@ function closeLogoutModal() {
   document.body.classList.remove('modal-open');
 }
 
+// ==================== КНОПКА "НАВЕРХ" ====================
+function initScrollTopButton() {
+  const btn = document.getElementById('scrollTopBtn');
+  const mainContent = document.getElementById('mainContent');
+  
+  if (!btn || !mainContent) return;
+  
+  // Порог появления кнопки (высота экрана)
+  const showThreshold = window.innerHeight * 0.5;
+  
+  // Обработчик прокрутки
+  const handleScroll = () => {
+    if (mainContent.scrollTop > showThreshold) {
+      btn.classList.add('show');
+    } else {
+      btn.classList.remove('show');
+    }
+  };
+  
+  // Добавляем обработчик
+  mainContent.addEventListener('scroll', handleScroll);
+  
+  // Проверяем при изменении размера окна
+  window.addEventListener('resize', () => {
+    // Пересчитываем порог при изменении размера
+    const newThreshold = window.innerHeight * 0.5;
+    if (mainContent.scrollTop > newThreshold) {
+      btn.classList.add('show');
+    } else {
+      btn.classList.remove('show');
+    }
+  });
+}
+
+function scrollToTop() {
+  const mainContent = document.getElementById('mainContent');
+  if (mainContent) {
+    mainContent.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+}
+
 async function performLogout() {
   const allowOtherDevices = document.getElementById('allowOtherDevices').checked;
   showLoader();
@@ -1196,6 +1294,7 @@ document.addEventListener('DOMContentLoaded', function() {
   getDeviceId();
   initUnits();
   checkSession();
+  initScrollTopButton();
   
   document.getElementById('authForm').addEventListener('submit', handleAuthSubmit);
   document.getElementById('searchInput').addEventListener('input', filterProducts);
