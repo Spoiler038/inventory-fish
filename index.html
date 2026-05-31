@@ -551,20 +551,15 @@
       margin-bottom: 30px;
     }
     .splash-loader {
-      width: 40px;
-      height: 40px;
-      border: 3px solid rgba(255, 255, 255, 0.2);
-      border-top: 3px solid #3498db;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: 0 auto;
-      display: block;
-      position: relative;
-      left: 0;
-      right: 0;
-      margin-left: auto;
-      margin-right: auto;
-    }
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top: 3px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  /* Убираем все margin, position, left, right – центрирует родительский flex */
+  margin: 0;
+}
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
