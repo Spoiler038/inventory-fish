@@ -14,15 +14,6 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <!-- iOS PWA поддержка -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Инвентаризация">
-  
-  <!-- Иконки -->
-  <link rel="manifest" href="/inventory-fish/manifest.json">
-  <link rel="icon" type="image/svg+xml" href="icons/logo.svg">
-  <link rel="apple-touch-icon" href="icons/logo-192.png">
   <style>
     :root {
       --primary-color: #e74c3c;
@@ -55,26 +46,25 @@
       overflow: hidden;
     }
     .app-header {
-  background-color: var(--secondary-color);
-  color: white;
-  padding: 12px 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  flex-shrink: 0;
-  height: 64px;
-  min-height: 64px;
-  max-height: 64px;
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-}
+      background-color: var(--secondary-color);
+      color: white;
+      padding: 12px 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      flex-shrink: 0;
+      height: 64px;
+      min-height: 64px;
+      max-height: 64px;
+      display: flex;
+      align-items: center;
+      box-sizing: border-box;
+    }
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+    }
     .app-title {
       font-size: 18px;
       font-weight: 600;
@@ -82,7 +72,12 @@
       align-items: center;
       gap: 8px;
     }
-    .logout-btn {
+    .header-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .logout-btn, .clear-data-btn {
       background: transparent;
       border: 1px solid rgba(255, 255, 255, 0.3);
       color: white;
@@ -94,30 +89,33 @@
       gap: 4px;
       cursor: pointer;
     }
+    .clear-data-btn:hover {
+      background: rgba(231, 76, 60, 0.5);
+      border-color: #e74c3c;
+    }
     .back-btn {
-  background: transparent;
-  border: none;
-  color: white;
-  width: 44px;
-  height: 44px;
-  margin-right: 8px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.1s, opacity 0.2s;
-  opacity: 0.9;
-}
+      background: transparent;
+      border: none;
+      color: white;
+      width: 44px;
+      height: 44px;
+      margin-right: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.1s, opacity 0.2s;
+      opacity: 0.9;
+    }
     .back-btn:active {
-  transform: scale(0.85);
-  opacity: 0.7;
-}
-
-.back-btn i {
-  font-size: 32px;
-  font-weight: bold;
-  line-height: 1;
-}
+      transform: scale(0.85);
+      opacity: 0.7;
+    }
+    .back-btn i {
+      font-size: 32px;
+      font-weight: bold;
+      line-height: 1;
+    }
     .main-content {
       flex: 1;
       overflow-y: auto;
@@ -140,8 +138,6 @@
     }
     .card-body { padding: 20px; }
     
-    /* Горизонтальное центрирование формы входа */
-        
     /* Цветные иконки цехов */
     .department-card { cursor: pointer; background: white; border-radius: var(--radius); padding: 15px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; transition: all 0.2s; border: 2px solid transparent; }
     .department-card:hover { transform: translateY(-2px); border-color: var(--accent-color); box-shadow: var(--shadow); }
@@ -174,89 +170,76 @@
     .product-name { font-size: 15px; font-weight: 500; color: var(--secondary-color); }
     .product-stock { font-size: 15px; font-weight: 600; color: var(--secondary-color); white-space: nowrap; }
     .product-unit { font-size: 12px; font-weight: 400; color: #777; margin-left: 2px; }
+    
+    /* Поиск */
     .search-container {
       padding: 10px 12px;
       background-color: transparent;
       flex-shrink: 0;
       display: none;
       justify-content: flex-start;
+      position: relative;
     }
-   
-    .search-container {
-  padding: 10px 12px;
-  background-color: transparent;
-  flex-shrink: 0;
-  display: none;
-  justify-content: flex-start;
-  position: relative;
-}
-
-.search-container.visible { 
-  display: flex !important; 
-  align-items: center;
-  gap: 10px;
-}
-
-.search-container.collapsed .search-input,
-.search-container.collapsed .clear-search { 
-  display: none; 
-}
-
-.search-container:not(.collapsed) .search-icon {
-  display: flex;
-}
-
-.search-container:not(.collapsed) .search-input {
-  display: block !important;
-  flex: 1;
-}
-
-.search-container:not(.collapsed) .clear-search {
-  display: block !important;
-}
-
-.search-wrapper {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  gap: 8px;
-}
-
-.search-icon {
-  width: 38px;
-  height: 38px;
-  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-  border-radius: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 18px;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
-  flex-shrink: 0;
-}
-
-.search-input {
-  flex: 1;
-  padding: 10px 16px;
-  border: 2px solid #e0e0e0;
-  border-radius: 30px;
-  font-size: 14px;
-  display: none;
-  background: white;
-}
-
-.clear-search {
-  background: none;
-  border: none;
-  color: #999;
-  font-size: 20px;
-  cursor: pointer;
-  padding: 0 8px;
-  display: none;
-  flex-shrink: 0;
-}
+    .search-container.visible { 
+      display: flex !important; 
+      align-items: center;
+      gap: 10px;
+    }
+    .search-container.collapsed .search-input,
+    .search-container.collapsed .clear-search { 
+      display: none; 
+    }
+    .search-container:not(.collapsed) .search-icon {
+      display: flex;
+    }
+    .search-container:not(.collapsed) .search-input {
+      display: block !important;
+      flex: 1;
+    }
+    .search-container:not(.collapsed) .clear-search {
+      display: block !important;
+    }
+    .search-wrapper {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      gap: 8px;
+    }
+    .search-icon {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+      flex-shrink: 0;
+    }
+    .search-input {
+      flex: 1;
+      padding: 10px 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 30px;
+      font-size: 14px;
+      display: none;
+      background: white;
+    }
+    .clear-search {
+      background: none;
+      border: none;
+      color: #999;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0 8px;
+      display: none;
+      flex-shrink: 0;
+    }
+    
+    /* Модальное окно */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -286,26 +269,73 @@
       border-radius: 20px 20px 0 0;
     }
     .modal-body { padding: 16px; }
+    
+    /* Калькулятор */
+    .calculator {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #f8f9fa;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .calc-display {
+      grid-column: span 4;
+      background-color: white;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 20px;
+      font-weight: 600;
+      text-align: right;
+      border: 1px solid #ddd;
+      margin-bottom: 5px;
+    }
+    .calc-btn-num {
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 12px 0;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .calc-btn-num:active { background-color: #e0e0e0; }
+    .calc-btn-op { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
+    .calc-btn-equals { background-color: var(--success-color); color: white; border-color: var(--success-color); }
+    .calc-back-btn {
+      grid-column: span 2;
+      background-color: var(--secondary-color);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    
     .loader {
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  border-top: 4px solid #3498db;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 9999;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  animation: spin 1s linear infinite;
-  will-change: transform; /* оптимизация */
-}
-
-@keyframes spin {
-  0% { transform: translate(-50%, -50%) rotate(0deg); }
-  100% { transform: translate(-50%, -50%) rotate(360deg); }
-}
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top: 4px solid #3498db;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      animation: spin 1s linear infinite;
+      will-change: transform;
+    }
+    @keyframes spin {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
     .notification {
       position: fixed;
       top: 20px;
@@ -341,13 +371,6 @@
       gap: 8px;
       font-size: 14px;
     }
-    .modal-actions .btn {
-  flex: 1;
-  max-width: 140px;
-  text-align: center;
-  justify-content: center;
-  padding: 12px 16px;
-}
     .btn-primary { background-color: var(--accent-color); color: white; }
     .btn-success { background-color: var(--success-color); color: white; }
     .btn-danger { background-color: #e74c3c; color: white; }
@@ -359,11 +382,18 @@
     .unit-btn { padding: 10px 6px; border: 2px solid #e0e0e0; border-radius: 10px; background: white; font-size: 12px; font-weight: 600; cursor: pointer; min-width: 45px; }
     .unit-btn.active { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
     .modal-actions {
-  display: flex;
-  gap: 12px;
-  margin-top: 20px;
-  justify-content: center;
-}
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      justify-content: center;
+    }
+    .modal-actions .btn {
+      flex: 1;
+      max-width: 140px;
+      text-align: center;
+      justify-content: center;
+      padding: 12px 16px;
+    }
     .product-name-container { display: flex; align-items: center; gap: 6px; flex: 1; }
     .readonly-notice { background: #f39c12; color: white; padding: 10px; border-radius: 10px; text-align: center; margin-top: 15px; font-size: 13px; }
     .current-stock { display: flex; justify-content: space-between; margin-bottom: 15px; background: #f8f9fa; padding: 10px; border-radius: 10px; font-size: 14px; }
@@ -377,61 +407,51 @@
     .mt-3 { margin-top: 15px; }
     .d-grid { display: grid; }
     .inventory-toggle-btn { font-size: 14px; padding: 10px; }
-
+    
     /* Кнопка "Наверх" */
-.scroll-top-btn {
-  position: fixed;
-  bottom: 80px;
-  right: 20px;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-  color: white;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  transition: all 0.2s ease;
-  z-index: 999;
-  opacity: 0;
-  transform: scale(0.8);
-  pointer-events: none;
-}
-
-.scroll-top-btn.show {
-  opacity: 1;
-  transform: scale(1);
-  pointer-events: auto;
-}
-
-.scroll-top-btn:active {
-  transform: scale(0.9);
-  background: linear-gradient(135deg, #2980b9 0%, #1f6ea0 100%);
-}
-
-.scroll-top-btn i {
-  font-size: 28px;
-  font-weight: bold;
-}
+    .scroll-top-btn {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+      color: white;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: all 0.2s ease;
+      z-index: 999;
+      opacity: 0;
+      transform: scale(0.8);
+      pointer-events: none;
+    }
+    .scroll-top-btn.show {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+    .scroll-top-btn:active {
+      transform: scale(0.9);
+      background: linear-gradient(135deg, #2980b9 0%, #1f6ea0 100%);
+    }
+    .scroll-top-btn i {
+      font-size: 28px;
+      font-weight: bold;
+    }
     
     @media (max-width: 480px) { 
       .department-icon i { font-size: 22px; }
       .unit-btn { padding: 8px 4px; min-width: 40px; font-size: 11px; }
       .btn { padding: 10px; font-size: 13px; }
-       #step1.active { min-height: 75vh; }
-      .modal-actions {
-        gap: 10px;
-        }
-       .modal-actions .btn {
-        min-width: 100px;
-        padding: 10px 12px;
-        }
-    }
-
-    .scroll-top-btn {
+      #step1.active { min-height: 75vh; }
+      .modal-actions { gap: 10px; }
+      .modal-actions .btn { min-width: 100px; padding: 10px 12px; }
+      .scroll-top-btn {
         bottom: 70px;
         right: 15px;
         width: 44px;
@@ -440,9 +460,9 @@
       .scroll-top-btn i {
         font-size: 24px;
       }
+    }
     
-    /* Скрытие сплеша после загрузки */
-        /* ========== СПЛЕШ (ЭКРАН ЗАГРУЗКИ) ========== */
+    /* Сплеш */
     #splash {
       position: fixed;
       top: 0;
@@ -456,29 +476,25 @@
       z-index: 99999;
       transition: opacity 0.5s ease-out;
     }
-    
     .splash-content {
       text-align: center;
       animation: fadeInUp 0.6s ease-out;
       padding: 20px;
     }
-    
     .splash-logo {
-  width: 120px;
-  height: 120px;
-  margin: 0 auto 20px;
-  animation: pulse 1.5s ease-in-out infinite;
-  background: transparent;
-}
-
-.splash-logo img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-  background: transparent;
-}
-    
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 20px;
+      animation: pulse 1.5s ease-in-out infinite;
+      background: transparent;
+    }
+    .splash-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      background: transparent;
+    }
     .splash-title {
       color: white;
       font-size: 24px;
@@ -486,13 +502,11 @@
       margin-bottom: 8px;
       letter-spacing: 1px;
     }
-    
     .splash-subtitle {
       color: rgba(255, 255, 255, 0.7);
       font-size: 14px;
       margin-bottom: 30px;
     }
-    
     .splash-loader {
       width: 40px;
       height: 40px;
@@ -502,45 +516,18 @@
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
-
-       
     @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-    
     @keyframes pulse {
-      0%, 100% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.05);
-      }
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
     }
-    
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    
-    /* Для ПК — логотип чуть крупнее */
     @media (min-width: 768px) {
-      .splash-logo {
-        width: 150px;
-        height: 150px;
-      }
-      .splash-title {
-        font-size: 28px;
-      }
+      .splash-logo { width: 150px; height: 150px; }
+      .splash-title { font-size: 28px; }
     }
-    
-    /* Обеспечиваем, что форма входа центрирована */
     #step1.active {
       display: flex;
       align-items: center;
@@ -569,11 +556,12 @@
     <div class="header-content">
       <div style="display: flex; align-items: center;">
         <button class="back-btn" id="backButton" style="display: none;" onclick="window.goBack && goBack()">
-  <i class="bi bi-arrow-left-short"></i>
-</button>
+          <i class="bi bi-arrow-left-short"></i>
+        </button>
         <div class="app-title"><i class="bi bi-clipboard-data"></i><span id="headerTitle">Инвентаризация</span></div>
       </div>
       <div class="header-actions" id="headerActions" style="display: none;">
+        <button class="clear-data-btn" id="clearDataBtn" style="display: none;" onclick="clearAllData()"><i class="bi bi-trash3"></i><span>Очистить</span></button>
         <button class="logout-btn" id="logoutBtn"><i class="bi bi-box-arrow-right"></i><span>Выйти</span></button>
       </div>
     </div>
@@ -582,10 +570,10 @@
     <div id="step1" class="step active">
       <div class="card"><div class="card-body">
         <div class="text-center mb-3">
-  <img src="icons/logo.svg" alt="Логотип" style="width: 80px; height: 80px; margin: 0 auto 10px auto; display: block;">
-  <h2>Вход в систему</h2>
-  <p class="text-muted small">Введите номер телефона</p>
-</div>
+          <img src="icons/logo.svg" alt="Логотип" style="width: 80px; height: 80px; margin: 0 auto 10px auto; display: block;">
+          <h2>Вход в систему</h2>
+          <p class="text-muted small">Введите номер телефона</p>
+        </div>
         <form id="authForm">
           <div class="mb-3">
             <input type="tel" class="form-control form-control-lg" id="phone" placeholder="8 (999) 123-45-67" required>
@@ -607,10 +595,9 @@
       <button class="clear-search" id="clearSearchBtn" style="display:none;">✖</button>
     </div>
   </div>
-  <!-- Кнопка "Наверх" -->
-<button class="scroll-top-btn" id="scrollTopBtn" onclick="scrollToTop()">
-  <i class="bi bi-arrow-up-short"></i>
-</button>
+  <button class="scroll-top-btn" id="scrollTopBtn" onclick="scrollToTop()">
+    <i class="bi bi-arrow-up-short"></i>
+  </button>
 </div>
 
 <div class="modal-overlay" id="productModal"><div class="modal-content">
@@ -623,8 +610,34 @@
     </div>
     <div><label class="form-label">Количество</label><div class="input-row">
       <input type="number" step="0.001" class="quantity-input" id="quantityInput" placeholder="0">
+      <button class="calc-btn" id="showCalculatorBtn" onclick="showCalculator()" style="background:#3498db; border:none; border-radius:10px; padding:0 12px; color:white;">
+        <i class="bi bi-calculator"></i>
+      </button>
       <div class="units-container" id="unitsContainer"></div>
     </div></div>
+    <div id="calculatorSection" style="display: none;">
+      <div class="calculator">
+        <div class="calc-display" id="calcDisplay">0</div>
+        <button class="calc-btn-num" onclick="calcInput('7')">7</button>
+        <button class="calc-btn-num" onclick="calcInput('8')">8</button>
+        <button class="calc-btn-num" onclick="calcInput('9')">9</button>
+        <button class="calc-btn-num calc-btn-op" onclick="calcOperator('/')">÷</button>
+        <button class="calc-btn-num" onclick="calcInput('4')">4</button>
+        <button class="calc-btn-num" onclick="calcInput('5')">5</button>
+        <button class="calc-btn-num" onclick="calcInput('6')">6</button>
+        <button class="calc-btn-num calc-btn-op" onclick="calcOperator('*')">×</button>
+        <button class="calc-btn-num" onclick="calcInput('1')">1</button>
+        <button class="calc-btn-num" onclick="calcInput('2')">2</button>
+        <button class="calc-btn-num" onclick="calcInput('3')">3</button>
+        <button class="calc-btn-num calc-btn-op" onclick="calcOperator('-')">-</button>
+        <button class="calc-btn-num" onclick="calcInput('0')">0</button>
+        <button class="calc-btn-num" onclick="calcInput('.')">.</button>
+        <button class="calc-btn-num calc-btn-equals" onclick="calcEquals()">=</button>
+        <button class="calc-btn-num calc-btn-op" onclick="calcOperator('+')">+</button>
+        <button class="calc-btn-num" style="grid-column: span 2;" onclick="calcClear()">C</button>
+        <button class="calc-back-btn" onclick="hideCalculator()"><i class="bi bi-arrow-left"></i> Назад</button>
+      </div>
+    </div>
     <div class="action-explanation">
       <p><i class="bi bi-arrow-repeat me-1"></i> <strong>Заменить</strong> — полностью заменить остаток</p>
       <p><i class="bi bi-plus-circle me-1"></i> <strong>Добавить</strong> — прибавить к текущему</p>
@@ -668,6 +681,11 @@ let isReadonlyDepartment = false;
 window.currentEditingProductId = null;
 window.isEditingName = false;
 
+// Калькулятор
+let calcCurrent = '0';
+let calcPrev = '';
+let calcOperation = null;
+
 // ==================== ВСПОМОГАТЕЛЬНЫЕ ====================
 function getDeviceId() {
   let storedId = localStorage.getItem('device_id');
@@ -693,34 +711,12 @@ function showLoader() {
   const loader = document.createElement('div');
   loader.className = 'loader';
   loader.id = 'globalLoader';
-  
-  // Принудительное центрирование через JS
-  const updateLoaderPosition = () => {
-    loader.style.position = 'fixed';
-    loader.style.top = '50%';
-    loader.style.left = '50%';
-    loader.style.marginTop = '-25px';
-    loader.style.marginLeft = '-25px';
-  };
-  
-  updateLoaderPosition();
   document.body.appendChild(loader);
-  
-  // Обновляем позицию при изменении размера окна
-  window.addEventListener('resize', updateLoaderPosition);
-  
-  // Сохраняем обработчик для удаления
-  loader._resizeHandler = updateLoaderPosition;
 }
 
 function hideLoader() {
   const loader = document.getElementById('globalLoader');
-  if (loader) {
-    if (loader._resizeHandler) {
-      window.removeEventListener('resize', loader._resizeHandler);
-    }
-    loader.remove();
-  }
+  if (loader) loader.remove();
 }
 
 function showNotification(message, type = 'success') {
@@ -738,7 +734,6 @@ function showNotification(message, type = 'success') {
 function callGAS(action, params = {}) {
   return new Promise((resolve, reject) => {
     const callbackName = `jsonp_${Date.now()}_${Math.random().toString(36).substr(2, 8)}`;
-    
     const url = new URL(GAS_URL);
     url.searchParams.append('action', action);
     url.searchParams.append('callback', callbackName);
@@ -747,9 +742,7 @@ function callGAS(action, params = {}) {
         url.searchParams.append(key, params[key].toString());
       }
     });
-    
     console.log(`Calling GAS via JSONP: ${action}`, params);
-    
     const timeout = setTimeout(() => {
       if (window[callbackName]) {
         delete window[callbackName];
@@ -757,7 +750,6 @@ function callGAS(action, params = {}) {
         reject(new Error(`Timeout for ${action}`));
       }
     }, 30000);
-    
     window[callbackName] = function(data) {
       clearTimeout(timeout);
       delete window[callbackName];
@@ -765,7 +757,6 @@ function callGAS(action, params = {}) {
       console.log(`GAS response for ${action}:`, data);
       resolve(data);
     };
-    
     const script = document.createElement('script');
     script.src = url.toString();
     script.onerror = function() {
@@ -809,11 +800,9 @@ async function handleAuthSubmit(e) {
   const normalizedPhone = cleanPhone.slice(-10);
   localStorage.setItem('last_phone', normalizedPhone);
   currentPhone = normalizedPhone;
-  
   showLoader();
   const result = await callGAS('authorize', { phone: cleanPhone, deviceId: getDeviceId() });
   hideLoader();
-  
   if (result.error) {
     showNotification(result.error, 'error');
     return;
@@ -825,31 +814,25 @@ function handleAuthSuccess(result) {
   userData = result;
   isChef = result.isChef || false;
   isInventoryActive = result.inventoryActive || false;
-  
   callGAS('saveSession', { phone: currentPhone, deviceId: getDeviceId() });
-  
   document.getElementById('headerActions').style.display = 'block';
+  // Показываем кнопку очистки только для шефа
+  const clearBtn = document.getElementById('clearDataBtn');
+  if (clearBtn) clearBtn.style.display = isChef ? 'flex' : 'none';
   document.getElementById('userWelcome').textContent = `Добро пожаловать, ${result.user.name || 'Пользователь'}!`;
-  
   const filteredDepartments = result.departments.filter(dept => !TECHNICAL_SHEETS.includes(dept));
-  
   if (filteredDepartments.length === 0) {
     showNotification('Нет доступных цехов', 'error');
     return;
   }
-  
   document.getElementById('headerTitle').textContent = 'Выбор цеха';
   document.getElementById('backButton').style.display = 'none';
   renderDepartments(filteredDepartments);
-  
-  // Скрываем шаг 1, показываем шаг 2
   const step1 = document.getElementById('step1');
   const step2 = document.getElementById('step2');
   if (step1) step1.classList.remove('active');
   if (step2) step2.classList.add('active');
   currentStep = 2;
-  
-  // Очищаем поле телефона
   const phoneInput = document.getElementById('phone');
   if (phoneInput) phoneInput.value = '';
 }
@@ -878,12 +861,10 @@ function renderDepartments(departments) {
   const container = document.getElementById('departmentsList');
   if (!container) return;
   container.innerHTML = '';
-  
   departments.forEach(dept => {
     const deptClass = getDepartmentClass(dept);
     const icon = getDepartmentIcon(dept);
     const isReadonly = READONLY_SHEETS.includes(dept);
-    
     const card = document.createElement('div');
     card.className = `department-card ${deptClass}`;
     card.onclick = () => selectDepartment(dept);
@@ -897,7 +878,6 @@ function renderDepartments(departments) {
     `;
     container.appendChild(card);
   });
-  
   if (isChef) {
     const btnDiv = document.createElement('div');
     btnDiv.className = 'mt-3 d-grid';
@@ -908,12 +888,8 @@ function renderDepartments(departments) {
       </button>
       <small class="text-muted text-center mt-1 small">${isInventoryActive ? 'Инвентаризация активна' : 'Инвентаризация не активна'}</small>
     `;
-    
     const toggleBtn = btnDiv.querySelector('#inventoryToggleBtn');
-    if (toggleBtn) {
-      toggleBtn.onclick = () => toggleInventory();
-    }
-    
+    if (toggleBtn) toggleBtn.onclick = () => toggleInventory();
     container.appendChild(btnDiv);
   }
 }
@@ -922,81 +898,59 @@ async function toggleInventory() {
   showLoader();
   const result = await callGAS('toggleInventory', { newStatus: !isInventoryActive });
   hideLoader();
-  
   if (result.success) {
     isInventoryActive = result.inventoryActive;
     showNotification(result.message, 'success');
-    
     const toggleBtn = document.getElementById('inventoryToggleBtn');
     if (toggleBtn) {
       toggleBtn.className = `btn ${isInventoryActive ? 'btn-danger' : 'btn-success'} inventory-toggle-btn`;
-      toggleBtn.innerHTML = `
-        <i class="bi ${isInventoryActive ? 'bi-stop-circle' : 'bi-play-circle'}"></i> 
-        ${isInventoryActive ? 'Закончить инвентаризацию' : 'Начать инвентаризацию'}
-      `;
-      
+      toggleBtn.innerHTML = `<i class="bi ${isInventoryActive ? 'bi-stop-circle' : 'bi-play-circle'}"></i> ${isInventoryActive ? 'Закончить инвентаризацию' : 'Начать инвентаризацию'}`;
       const smallText = toggleBtn.parentElement?.querySelector('small');
-      if (smallText) {
-        smallText.textContent = isInventoryActive ? 'Инвентаризация активна' : 'Инвентаризация не активна';
-      }
+      if (smallText) smallText.textContent = isInventoryActive ? 'Инвентаризация активна' : 'Инвентаризация не активна';
     }
-    
-    if (currentDepartment) {
-      renderProducts();
-    }
+    if (currentDepartment) renderProducts();
   } else {
     showNotification(result.error || 'Ошибка', 'error');
   }
 }
 
-// ==================== ВЫБОР ЦЕХА ====================
 async function selectDepartment(department) {
   currentDepartment = department;
   isReadonlyDepartment = READONLY_SHEETS.includes(department);
-  
   document.getElementById('headerTitle').textContent = department;
   const showBack = userData && userData.hasMultipleDepts;
   document.getElementById('backButton').style.display = showBack ? 'block' : 'none';
-  
   showLoader();
   const result = await callGAS('getProducts', { department });
   hideLoader();
-  
   if (result.error) {
     showNotification(result.error, 'error');
     return;
   }
-  
   products = result.products || [];
   filteredProducts = [...products];
   renderProducts();
   goToStep(3);
-  
   const sc = document.getElementById('searchContainer');
-  if (sc) { sc.classList.add('visible', 'collapsed'); }
+  if (sc) sc.classList.add('visible', 'collapsed');
 }
 
 function renderProducts() {
   const container = document.getElementById('step3');
   if (!container) return;
-  
   document.querySelectorAll('.readonly-notice, .alert-success').forEach(n => n.remove());
-  
   if (filteredProducts.length === 0) {
     container.innerHTML = `<div class="empty-state text-center p-4"><i class="bi bi-box" style="font-size:40px;color:#ddd;"></i><h5>Нет продуктов</h5></div>`;
     return;
   }
-  
   let html = '<div class="products-list">';
   filteredProducts.forEach(product => {
     const stockDisplay = product.stock > 0 ? product.stock : '0';
-    
     const canEdit = !isReadonlyDepartment;
     const editIcon = (isChef && canEdit) ? `<span class="edit-icon" onclick="event.stopPropagation(); startEditName(${product.id}, '${product.name.replace(/'/g, "\\'")}', event)"><i class="bi bi-pencil"></i></span>` : '';
     const canOpenModal = (isChef && canEdit) || (isInventoryActive && canEdit);
     const clickAttr = (!window.isEditingName && canOpenModal) ? `onclick="openProductModal(${product.id})"` : '';
     const readonlyClass = isReadonlyDepartment ? 'readonly' : '';
-    
     html += `
       <div class="product-card ${isChef ? 'chef-mode' : ''} ${readonlyClass}" ${clickAttr} data-id="${product.id}" style="${!canOpenModal ? 'cursor: default;' : ''}">
         <div class="product-row">
@@ -1011,7 +965,6 @@ function renderProducts() {
   });
   html += '</div>';
   container.innerHTML = html;
-  
   if (isReadonlyDepartment) {
     const notice = document.createElement('div');
     notice.className = 'readonly-notice';
@@ -1023,10 +976,7 @@ function renderProducts() {
     notice.innerHTML = '<i class="bi bi-eye"></i> Режим просмотра. Инвентаризация не активна.';
     container.appendChild(notice);
   }
-  
-  if (isChef) {
-    document.querySelectorAll('.product-card').forEach(card => card.classList.add('chef-mode'));
-  }
+  if (isChef) document.querySelectorAll('.product-card').forEach(card => card.classList.add('chef-mode'));
   window.currentEditingProductId = null;
 }
 
@@ -1045,6 +995,7 @@ function initUnits() {
     btn.type = 'button';
     btn.className = 'unit-btn';
     btn.textContent = unit.value;
+    btn.setAttribute('data-value', unit.value);
     btn.addEventListener('click', function() {
       document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
       this.classList.add('active');
@@ -1053,7 +1004,6 @@ function initUnits() {
   });
 }
 
-// ==================== ПОИСК ====================
 function filterProducts() {
   const term = document.getElementById('searchInput').value.toLowerCase().trim();
   filteredProducts = term ? products.filter(p => p.name.toLowerCase().includes(term)) : [...products];
@@ -1082,17 +1032,13 @@ function startEditName(productId, currentName, event) {
   if (event) { event.stopPropagation(); event.preventDefault(); }
   if (!isChef) { showNotification('Только шеф-повар может редактировать названия', 'error'); return; }
   if (isReadonlyDepartment) { showNotification('Этот цех только для просмотра', 'error'); return; }
-  
   closeAllEditors();
   const product = filteredProducts.find(p => p.id === productId);
   if (!product) return;
-  
   const productCard = document.querySelector(`.product-card[data-id="${productId}"]`);
   if (!productCard) return;
-  
   window.currentEditingProductId = productId;
   window.isEditingName = true;
-  
   const nameContainer = productCard.querySelector('.product-name-container');
   nameContainer.innerHTML = `
     <div style="flex:1;">
@@ -1112,14 +1058,11 @@ function startEditName(productId, currentName, event) {
 async function saveNameEdit(productId) {
   const newName = document.getElementById(`editNameInput_${productId}`).value.trim();
   if (!newName) { showNotification('Название не может быть пустым', 'error'); return; }
-  
   const product = products.find(p => p.id === productId);
   if (!product) return;
-  
   showLoader();
   const result = await callGAS('updateProductName', { departmentName: currentDepartment, rowNumber: product.row, newName });
   hideLoader();
-  
   if (result.success) {
     product.name = newName;
     filteredProducts = filteredProducts.map(p => p.id === productId ? { ...p, name: newName } : p);
@@ -1132,36 +1075,25 @@ async function saveNameEdit(productId) {
   window.currentEditingProductId = null;
 }
 
-function cancelNameEdit() {
-  renderProducts();
-  window.isEditingName = false;
-  window.currentEditingProductId = null;
-}
-
-function closeAllEditors() {
-  if (window.currentEditingProductId) { renderProducts(); window.currentEditingProductId = null; }
-  window.isEditingName = false;
-}
+function cancelNameEdit() { renderProducts(); window.isEditingName = false; window.currentEditingProductId = null; }
+function closeAllEditors() { if (window.currentEditingProductId) { renderProducts(); window.currentEditingProductId = null; } window.isEditingName = false; }
 
 // ==================== МОДАЛЬНОЕ ОКНО ====================
 function openProductModal(productId) {
   if (window.isEditingName) return;
   if (isReadonlyDepartment) { showNotification('Этот цех только для просмотра', 'info'); return; }
   if (!isChef && !isInventoryActive) { showNotification('Инвентаризация не активна', 'info'); return; }
-  
   selectedProduct = filteredProducts.find(p => p.id === productId);
   if (!selectedProduct) return;
-  
   document.getElementById('modalProductName').textContent = selectedProduct.name;
   document.getElementById('currentStockValue').textContent = `${selectedProduct.stock} ${selectedProduct.unit}`;
   document.getElementById('quantityInput').value = '';
-  
   let unitToSelect = selectedProduct.defaultUnit || selectedProduct.unit || 'кг';
   document.querySelectorAll('.unit-btn').forEach(btn => {
     btn.classList.remove('active');
     if (btn.getAttribute('data-value') === unitToSelect) btn.classList.add('active');
   });
-  
+  hideCalculator();
   document.getElementById('productModal').classList.add('active');
   document.body.classList.add('modal-open');
   setTimeout(() => document.getElementById('quantityInput').focus(), 100);
@@ -1171,16 +1103,61 @@ function closeProductModal() {
   document.getElementById('productModal').classList.remove('active');
   document.body.classList.remove('modal-open');
   selectedProduct = null;
+  hideCalculator();
 }
 
+// ==================== КАЛЬКУЛЯТОР ====================
+function showCalculator() {
+  document.querySelector('.quick-input').style.display = 'none';
+  document.querySelector('.action-explanation').style.display = 'none';
+  document.querySelector('.modal-actions').style.display = 'none';
+  document.getElementById('calculatorSection').style.display = 'block';
+  const modalBody = document.querySelector('.modal-body');
+  modalBody.style.display = 'flex';
+  modalBody.style.flexDirection = 'column';
+  modalBody.style.justifyContent = 'center';
+  modalBody.style.padding = '10px';
+  resetCalculator();
+}
+function hideCalculator() {
+  document.querySelector('.quick-input').style.display = 'grid';
+  document.querySelector('.action-explanation').style.display = 'block';
+  document.querySelector('.modal-actions').style.display = 'flex';
+  document.getElementById('calculatorSection').style.display = 'none';
+  const modalBody = document.querySelector('.modal-body');
+  modalBody.style.display = 'block';
+  modalBody.style.padding = '16px';
+}
+function resetCalculator() { calcCurrent = '0'; calcPrev = ''; calcOperation = null; updateCalcDisplay(); }
+function calcInput(num) { if (calcCurrent === '0' && num !== '.') calcCurrent = num; else calcCurrent += num; updateCalcDisplay(); }
+function calcOperator(op) { if (calcPrev && calcOperation) calcEquals(); calcPrev = calcCurrent; calcCurrent = '0'; calcOperation = op; }
+function calcEquals() {
+  if (!calcPrev || !calcOperation) return;
+  const prev = parseFloat(calcPrev);
+  const current = parseFloat(calcCurrent);
+  let result = 0;
+  switch(calcOperation) {
+    case '+': result = prev + current; break;
+    case '-': result = prev - current; break;
+    case '*': result = prev * current; break;
+    case '/': result = prev / current; break;
+  }
+  calcCurrent = result.toString();
+  calcPrev = '';
+  calcOperation = null;
+  updateCalcDisplay();
+  document.getElementById('quantityInput').value = result.toFixed(3);
+}
+function calcClear() { resetCalculator(); }
+function updateCalcDisplay() { document.getElementById('calcDisplay').textContent = calcCurrent; }
+
+// ==================== ОБНОВЛЕНИЕ ПРОДУКТА ====================
 async function updateProduct(isReplace) {
   const newQuantity = parseFloat(document.getElementById('quantityInput').value);
   const selectedUnitBtn = document.querySelector('.unit-btn.active');
   const newUnit = selectedUnitBtn ? selectedUnitBtn.getAttribute('data-value') : selectedProduct.unit;
-  
   if (isNaN(newQuantity) || newQuantity < 0) { showNotification('Введите корректное количество', 'error'); return; }
   if (!selectedUnitBtn) { showNotification('Выберите единицу измерения', 'error'); return; }
-  
   showLoader();
   const result = await callGAS('updateProductStock', {
     departmentName: currentDepartment,
@@ -1190,7 +1167,6 @@ async function updateProduct(isReplace) {
     isReplace: isReplace
   });
   hideLoader();
-  
   if (result.success) {
     selectedProduct.stock = newQuantity;
     selectedProduct.unit = newUnit;
@@ -1202,33 +1178,39 @@ async function updateProduct(isReplace) {
   }
 }
 
-// ==================== НАВИГАЦИЯ ====================
-function goToStep(step) {
-  // Скрываем ВСЕ шаги
-  const step1 = document.getElementById('step1');
-  const step2 = document.getElementById('step2');
-  const step3 = document.getElementById('step3');
-  
-  if (step1) step1.classList.remove('active');
-  if (step2) step2.classList.remove('active');
-  if (step3) step3.classList.remove('active');
-  
-  // Показываем нужный шаг
-  const activeStep = document.getElementById(`step${step}`);
-  if (activeStep) activeStep.classList.add('active');
-  
-  currentStep = step;
-  
-  // Управление поиском
-  const sc = document.getElementById('searchContainer');
-  if (step === 3) { 
-    if (sc) sc.classList.add('visible'); 
-    document.getElementById('mainContent').scrollTop = 0; 
-  } else { 
-    if (sc) sc.classList.remove('visible'); 
+// ==================== ОЧИСТКА ДАННЫХ (ДЛЯ ШЕФА) ====================
+async function clearAllData() {
+  if (!isChef) { showNotification('Доступно только шеф-повару', 'error'); return; }
+  const confirmClear = confirm('⚠️ ВНИМАНИЕ! Это действие удалит ВСЕ данные из столбцов B, C, D (кг, шт, короб) во ВСЕХ цехах.\n\nПродолжить?');
+  if (!confirmClear) return;
+  showLoader();
+  const result = await callGAS('clearAllData', {});
+  hideLoader();
+  if (result.success) {
+    showNotification(result.message, 'success');
+    if (currentDepartment) {
+      await selectDepartment(currentDepartment);
+    }
+  } else {
+    showNotification(result.error || 'Ошибка очистки', 'error');
   }
 }
 
+// ==================== НАВИГАЦИЯ ====================
+function goToStep(step) {
+  const step1 = document.getElementById('step1');
+  const step2 = document.getElementById('step2');
+  const step3 = document.getElementById('step3');
+  if (step1) step1.classList.remove('active');
+  if (step2) step2.classList.remove('active');
+  if (step3) step3.classList.remove('active');
+  const activeStep = document.getElementById(`step${step}`);
+  if (activeStep) activeStep.classList.add('active');
+  currentStep = step;
+  const sc = document.getElementById('searchContainer');
+  if (step === 3) { if (sc) sc.classList.add('visible'); document.getElementById('mainContent').scrollTop = 0; } 
+  else { if (sc) sc.classList.remove('visible'); }
+}
 function goBack() {
   if (currentStep === 3) {
     document.getElementById('headerTitle').textContent = 'Выбор цеха';
@@ -1240,75 +1222,16 @@ function goBack() {
     goToStep(2);
   }
 }
-
-// ==================== ЛОГАУТ ====================
-function showLogoutModal() {
-  document.getElementById('logoutModal').classList.add('active');
-  document.body.classList.add('modal-open');
-}
-
-function closeLogoutModal() {
-  document.getElementById('logoutModal').classList.remove('active');
-  document.body.classList.remove('modal-open');
-}
-
-// ==================== КНОПКА "НАВЕРХ" ====================
-function initScrollTopButton() {
-  const btn = document.getElementById('scrollTopBtn');
-  const mainContent = document.getElementById('mainContent');
-  
-  if (!btn || !mainContent) return;
-  
-  // Порог появления кнопки (высота экрана)
-  const showThreshold = window.innerHeight * 0.5;
-  
-  // Обработчик прокрутки
-  const handleScroll = () => {
-    if (mainContent.scrollTop > showThreshold) {
-      btn.classList.add('show');
-    } else {
-      btn.classList.remove('show');
-    }
-  };
-  
-  // Добавляем обработчик
-  mainContent.addEventListener('scroll', handleScroll);
-  
-  // Проверяем при изменении размера окна
-  window.addEventListener('resize', () => {
-    // Пересчитываем порог при изменении размера
-    const newThreshold = window.innerHeight * 0.5;
-    if (mainContent.scrollTop > newThreshold) {
-      btn.classList.add('show');
-    } else {
-      btn.classList.remove('show');
-    }
-  });
-}
-
-function scrollToTop() {
-  const mainContent = document.getElementById('mainContent');
-  if (mainContent) {
-    mainContent.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  }
-}
-
+function showLogoutModal() { document.getElementById('logoutModal').classList.add('active'); document.body.classList.add('modal-open'); }
+function closeLogoutModal() { document.getElementById('logoutModal').classList.remove('active'); document.body.classList.remove('modal-open'); }
 async function performLogout() {
   const allowOtherDevices = document.getElementById('allowOtherDevices').checked;
   showLoader();
   const result = await callGAS('logout', { deviceId: getDeviceId(), allowOtherDevices });
   hideLoader();
-  
   if (result.success) {
     closeLogoutModal();
-    userData = null;
-    currentDepartment = null;
-    products = [];
-    filteredProducts = [];
-    currentPhone = null;
+    userData = null; currentDepartment = null; products = []; filteredProducts = []; currentPhone = null;
     document.getElementById('authForm').reset();
     document.getElementById('headerTitle').textContent = 'Инвентаризация';
     const saved = localStorage.getItem('last_phone');
@@ -1321,7 +1244,28 @@ async function performLogout() {
   }
 }
 
-// ==================== ЭКСПОРТ ФУНКЦИЙ ====================
+// ==================== КНОПКА "НАВЕРХ" ====================
+function initScrollTopButton() {
+  const btn = document.getElementById('scrollTopBtn');
+  const mainContent = document.getElementById('mainContent');
+  if (!btn || !mainContent) return;
+  const showThreshold = window.innerHeight * 0.5;
+  const handleScroll = () => {
+    if (mainContent.scrollTop > showThreshold) btn.classList.add('show');
+    else btn.classList.remove('show');
+  };
+  mainContent.addEventListener('scroll', handleScroll);
+  window.addEventListener('resize', () => {
+    const newThreshold = window.innerHeight * 0.5;
+    if (mainContent.scrollTop > newThreshold) btn.classList.add('show');
+    else btn.classList.remove('show');
+  });
+}
+function scrollToTop() {
+  const mainContent = document.getElementById('mainContent');
+  if (mainContent) mainContent.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 window.goBack = goBack;
 window.closeLogoutModal = closeLogoutModal;
 window.performLogout = performLogout;
@@ -1331,8 +1275,8 @@ window.saveNameEdit = saveNameEdit;
 window.cancelNameEdit = cancelNameEdit;
 window.openProductModal = openProductModal;
 window.updateProduct = updateProduct;
+window.clearAllData = clearAllData;
 
-// ==================== ИНИЦИАЛИЗАЦИЯ ==================
 function hideSplash() {
   const splash = document.getElementById('splash');
   if (splash) {
@@ -1346,33 +1290,23 @@ document.addEventListener('DOMContentLoaded', function() {
   initUnits();
   checkSession();
   initScrollTopButton();
-  
   document.getElementById('authForm').addEventListener('submit', handleAuthSubmit);
   document.getElementById('searchInput').addEventListener('input', filterProducts);
   document.getElementById('clearSearchBtn').addEventListener('click', clearSearch);
   document.querySelector('.search-icon')?.addEventListener('click', toggleSearch);
   document.getElementById('logoutBtn').addEventListener('click', showLogoutModal);
-  
-  document.getElementById('productModal').addEventListener('click', function(e) {
-    if (e.target === this) closeProductModal();
-  });
+  document.getElementById('productModal').addEventListener('click', function(e) { if (e.target === this) closeProductModal(); });
   document.getElementById('replaceBtn').addEventListener('click', () => { if (selectedProduct) updateProduct(true); });
   document.getElementById('addBtn').addEventListener('click', () => { if (selectedProduct) updateProduct(false); });
-  
   document.querySelectorAll('.quick-btn').forEach(btn => {
     btn.addEventListener('click', function() {
       const input = document.getElementById('quantityInput');
       input.value = (parseFloat(input.value) || 0) + parseFloat(this.getAttribute('data-value'));
     });
   });
-  
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') { closeProductModal(); closeLogoutModal(); }
-  });
-  
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { closeProductModal(); closeLogoutModal(); } });
   const savedPhone = localStorage.getItem('last_phone');
   if (savedPhone) document.getElementById('phone').value = savedPhone;
-  
   setTimeout(hideSplash, 800);
 });
 </script>
