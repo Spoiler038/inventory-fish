@@ -824,7 +824,7 @@ async function checkSession() {
   if (result.success && result.phone) {
     currentPhone = result.phone;
     document.getElementById('phone').value = result.phone;
-    document.getElementById('headerActions').style.display = 'block';
+    document.getElementById('headerActions').style.display = 'flex';
     await autoAuthorize(result.phone);
   } else {
     document.getElementById('headerActions').style.display = 'none';
@@ -864,7 +864,7 @@ function handleAuthSuccess(result) {
   isChef = result.isChef || false;
   isInventoryActive = result.inventoryActive || false;
   callGAS('saveSession', { phone: currentPhone, deviceId: getDeviceId() });
-  document.getElementById('headerActions').style.display = 'block';
+  document.getElementById('headerActions').style.display = 'flex';
   // Показываем кнопку очистки только для шефа
   const clearBtn = document.getElementById('clearDataBtn');
   if (clearBtn) clearBtn.style.display = isChef ? 'flex' : 'none';
