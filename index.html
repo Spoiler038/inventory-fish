@@ -73,10 +73,11 @@
       gap: 8px;
     }
     .header-actions {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: nowrap;
+}
     .logout-btn, .clear-data-btn {
       background: transparent;
       border: 1px solid rgba(255, 255, 255, 0.3);
@@ -566,7 +567,7 @@
         <div class="app-title"><i class="bi bi-clipboard-data"></i><span id="headerTitle">Инвентаризация</span></div>
       </div>
       <div class="header-actions" id="headerActions" style="display: none;">
-        <button class="clear-data-btn" id="clearDataBtn" style="display: none;" onclick="clearAllData()"><i class="bi bi-trash3"></i><span>Очистить</span></button>
+        <button class="clear-data-btn" id="clearDataBtn" style="display: none;" onclick="clearAllData()" title="Очистить данные"><i class="bi bi-trash3"></i></button>
         <button class="logout-btn" id="logoutBtn"><i class="bi bi-box-arrow-right"></i><span>Выйти</span></button>
       </div>
     </div>
