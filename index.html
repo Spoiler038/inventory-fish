@@ -562,8 +562,11 @@
   border-top: 3px solid #3498db;
   border-radius: 50%;
   animation: spin 1s linear infinite;
-  margin: 0 auto;
-  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
 }
     
     @keyframes fadeInUp {
@@ -1207,14 +1210,20 @@ async function updateProduct(isReplace) {
   const selectedUnitBtn = document.querySelector('.unit-btn.active');
   const newUnit = selectedUnitBtn ? selectedUnitBtn.getAttribute('data-value') : selectedProduct.unit;
   
-  if (isNaN(newQuantity) || newQuantity < 0) { showNotification('Введите корректное количество', 'error'); return; }
-  if (!selectedUnitBtn) { showNotification('Выберите единицу измерения', 'error'); return; }
+  if (isNaN(newQuantity) || newQuantity < 0) {
+    showNotification('Введите корректное количество', 'error');
+    return;
+  }
+  if (!selectedUnitBtn) {
+    showNotification('Выберите единицу измерения', 'error');
+    return;
+  }
   
-  // ⚠️ НОВОЕ УСЛОВИЕ: только шеф может установить 0
+  // Только шеф может установить 0
   //if (newQuantity === 0 && !isChef) {
     //showNotification('Установка нулевого остатка доступна только шеф-повару', 'error');
     //return;
-  }//
+  //}
   
   showLoader();
   const result = await callGAS('updateProductStock', {
@@ -1233,7 +1242,7 @@ async function updateProduct(isReplace) {
     showNotification(`${selectedProduct.name}: ${isReplace ? 'заменен на' : 'добавлено'} ${newQuantity} ${newUnit}`, 'success');
     closeProductModal();
   } else {
-    showNotification(result.error || 'Ошибка', 'error');
+    showNotification(result.error || 'Ошибка обновления', 'error');
   }
 }
 
