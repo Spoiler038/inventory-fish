@@ -308,6 +308,20 @@
     .modal-body { padding: 16px; }
     
     /* Калькулятор */
+    .calc-btn {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    padding: 0 12px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 45px;
+    height: 44px; /* такая же высота как у .unit-btn */
+    }
     .calculator {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -662,7 +676,7 @@
       <button class="quick-btn" data-value="1">+1</button><button class="quick-btn" data-value="5">+5</button>
     </div>
     <div><label class="form-label">Количество</label><div class="input-row">
-      <input type="number" step="0.001" class="quantity-input" id="quantityInput" placeholder="0">
+      <input type="number" step="0.001" class="quantity-input" id="quantityInput" placeholder="">
       <button class="calc-btn" id="showCalculatorBtn" onclick="showCalculator()" style="background:#3498db; border:none; border-radius:10px; padding:0 12px; color:white;">
         <i class="bi bi-calculator"></i>
       </button>
@@ -734,6 +748,7 @@ let isReadonlyDepartment = false;
 window.currentEditingProductId = null;
 window.isEditingName = false;
 
+let lastInventoryDate = null;
 // Калькулятор
 let calcCurrent = '0';
 let calcPrev = '';
@@ -949,21 +964,58 @@ function renderDepartments(departments) {
 
 async function toggleInventory() {
   showLoader();
+  
+  if (isInventoryActive) {
+    const zeroResult = await callGAS('ensureZerosForQuery', {});
+    if (zeroResult.error) {
+      showNotification(zeroResult.error, 'error');
+      hideLoader();
+      return;
+    }
+    if (zeroResult.lastInventoryDate) {
+      lastInventoryDate = zeroResult.lastInventoryDate;
+    }
+  }
+  
   const result = await callGAS('toggleInventory', { newStatus: !isInventoryActive });
   hideLoader();
+  
   if (result.success) {
     isInventoryActive = result.inventoryActive;
     showNotification(result.message, 'success');
+    
+    if (currentDepartment === 'Итого' && lastInventoryDate) {
+      updateInventoryDateHeader();
+    }
+    
     const toggleBtn = document.getElementById('inventoryToggleBtn');
     if (toggleBtn) {
       toggleBtn.className = `btn ${isInventoryActive ? 'btn-danger' : 'btn-success'} inventory-toggle-btn`;
-      toggleBtn.innerHTML = `<i class="bi ${isInventoryActive ? 'bi-stop-circle' : 'bi-play-circle'}"></i> ${isInventoryActive ? 'Закончить инвентаризацию' : 'Начать инвентаризацию'}`;
+      toggleBtn.innerHTML = `<i class="bi ${isInventoryActive ? 'bi-stop-circle' : 'bi-play-circle'}"></i> ${isInventoryActive ? 'Завершить инвентаризацию' : 'Начать инвентаризацию'}`;
       const smallText = toggleBtn.parentElement?.querySelector('small');
       if (smallText) smallText.textContent = isInventoryActive ? 'Инвентаризация активна' : 'Инвентаризация не активна';
     }
+    
     if (currentDepartment) renderProducts();
   } else {
     showNotification(result.error || 'Ошибка', 'error');
+  }
+}
+
+  async function loadInventoryDate() {
+  const result = await callGAS('getLastInventoryDate', {});
+  if (result.success && result.lastDate) {
+    lastInventoryDate = new Date(result.lastDate);
+    updateInventoryDateHeader();
+  }
+}
+
+  function updateInventoryDateHeader() {
+  const headerTitle = document.getElementById('headerTitle');
+  if (currentDepartment === 'Итого' && lastInventoryDate) {
+    const date = new Date(lastInventoryDate);
+    const formattedDate = `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getFullYear()).slice(-2)}`;
+    headerTitle.innerHTML = `Итого <span style="font-size: 12px; opacity: 0.7;">от ${formattedDate}</span>`;
   }
 }
 
@@ -987,18 +1039,25 @@ async function selectDepartment(department) {
   history.pushState(null, '', location.href);
   const sc = document.getElementById('searchContainer');
   if (sc) sc.classList.add('visible', 'collapsed');
+  if (department === 'Итого') {
+  await loadInventoryDate();
+  }
 }
 
 function renderProducts() {
   const container = document.getElementById('step3');
+  let productsToRender = filteredProducts;
+  if (currentDepartment === 'Итого') {
+  productsToRender = filteredProducts.filter(p => p.stock !== 0);
+  }
   if (!container) return;
   document.querySelectorAll('.readonly-notice, .alert-success').forEach(n => n.remove());
-  if (filteredProducts.length === 0) {
+  if (productsToRender.length === 0) {  // ← исправлено: productsToRender
     container.innerHTML = `<div class="empty-state text-center p-4"><i class="bi bi-box" style="font-size:40px;color:#ddd;"></i><h5>Нет продуктов</h5></div>`;
     return;
   }
   let html = '<div class="products-list">';
-  filteredProducts.forEach(product => {
+  productsToRender.forEach(product => {
     const stockDisplay = product.stock > 0 ? product.stock : '0';
     const canEdit = !isReadonlyDepartment;
     const editIcon = (isChef && canEdit) ? `<span class="edit-icon" onclick="event.stopPropagation(); startEditName(${product.id}, '${product.name.replace(/'/g, "\\'")}', event)"><i class="bi bi-pencil"></i></span>` : '';
@@ -1196,11 +1255,19 @@ function calcEquals() {
     case '*': result = prev * current; break;
     case '/': result = prev / current; break;
   }
-  calcCurrent = result.toString();
+  // Округление до 3 знаков и удаление лишних нулей
+  const rounded = Math.round(result * 1000) / 1000;
+  calcCurrent = rounded.toString();
   calcPrev = '';
   calcOperation = null;
   updateCalcDisplay();
-  document.getElementById('quantityInput').value = result.toFixed(3);
+  
+  // Форматируем для отображения без лишних .000
+  let displayValue = rounded;
+  if (Math.abs(rounded - Math.floor(rounded)) < 0.0001) {
+    displayValue = Math.floor(rounded);
+  }
+  document.getElementById('quantityInput').value = displayValue;
 }
 function calcClear() { resetCalculator(); }
 function updateCalcDisplay() { document.getElementById('calcDisplay').textContent = calcCurrent; }
@@ -1386,11 +1453,19 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('replaceBtn').addEventListener('click', () => { if (selectedProduct) updateProduct(true); });
   document.getElementById('addBtn').addEventListener('click', () => { if (selectedProduct) updateProduct(false); });
   document.querySelectorAll('.quick-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-      const input = document.getElementById('quantityInput');
-      input.value = (parseFloat(input.value) || 0) + parseFloat(this.getAttribute('data-value'));
-    });
+  btn.addEventListener('click', function() {
+    const input = document.getElementById('quantityInput');
+    const value = parseFloat(this.getAttribute('data-value'));
+    let current = parseFloat(input.value) || 0;
+    let result = current + value;
+    // Округление для избежания 0.30000000000000004
+    result = Math.round(result * 1000) / 1000;
+    if (Math.abs(result - Math.floor(result)) < 0.0001) {
+      result = Math.floor(result);
+    }
+    input.value = result;
   });
+});
   document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { closeProductModal(); closeLogoutModal(); } });
   const savedPhone = localStorage.getItem('last_phone');
   if (savedPhone) document.getElementById('phone').value = savedPhone;
